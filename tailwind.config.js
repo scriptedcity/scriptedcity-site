@@ -8,7 +8,7 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
-  mode: 'jit',
+  mode: "jit",
   darkMode: "class",
   plugins: [nextui(), require("@tailwindcss/typography")],
 };

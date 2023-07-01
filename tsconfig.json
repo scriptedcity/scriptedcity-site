@@ -25,6 +25,7 @@
       "contentlayer/generated": ["./.contentlayer/generated"],
       "@utils": ["./src/lib/utils"],
       "@components/*": ["./src/components/*"],
+      "@contents/*": ["./contents/*"],
       "@const": ["./src/const"]
     }
   },

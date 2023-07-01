@@ -1,10 +1,11 @@
+// display article
 import React from "react";
 
-import { allPosts } from "contentlayer/generated";
-import MdxComponent from "@components/MdxComponent";
+import { allDocuments } from "contentlayer/generated";
+import ContentRenderer from "@/src/components/ContentRenderer";
 
 export const generateStaticParams = async () => {
-  return allPosts.map((post) => {
+  return allDocuments.map((post) => {
     const [category, slug] = post.path.split("/");
     return {
       category,
@@ -19,11 +20,11 @@ export const generateMetadata = ({
   params: { category: string; slug: string };
 }) => {
   const { category, slug } = params;
-  const post = allPosts.find((post) => {
+  const post = allDocuments.find((post) => {
     return post.path === `${category}/${slug}`;
   });
   if (!post) throw new Error(`Post not found for slug: ${params}`);
-  return { title: post.title };
+  return { title: post.title, openGraph: { images: [post.image] } };
 };
 
 const PostLayout = ({
@@ -31,21 +32,21 @@ const PostLayout = ({
 }: {
   params: { category: string; slug: string };
 }) => {
-  console.log({params})
+  console.log({ params });
   const { category, slug } = params;
-  const post = allPosts.find((post) => post.path === `${category}/${slug}`);
+  const post = allDocuments.find((post) => post.path === `${category}/${slug}`);
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 
   return (
-    <article className="mx-auto max-w-xl py-8">
-      <div className="mb-8 text-left">
+    <article className="container mx-auto max-w-5xl py-8">
+      <div className="mb-8 text-center justify-center">
         <h2 className="text-3xl font-bold">{post.title}</h2>
-        <time dateTime={post.date} className="mb-1 text-xs text-gray-600">
+        <time dateTime={post.date} className="text-xs text-gray-600">
           {post.date}
         </time>
       </div>
-      <div className="[&>*]:mb-3 [&>*:last-child]:mb-0">
-        <MdxComponent code={post.body.code} />
+      <div className="[&>*]:mb-3 [&>*:last-child]:mb-0 prose prose-zinc mx-auto md:prose-lg lg:prose-xl dark:prose-invert">
+        <ContentRenderer post={post} />
       </div>
     </article>
   );

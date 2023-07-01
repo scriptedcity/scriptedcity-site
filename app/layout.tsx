@@ -1,11 +1,7 @@
-"use client";
-
 import "@/app/globals.css";
 import { Providers } from "./providers";
 
-import Header from "@components/Header";
-import { getCategories } from "@utils";
-import { LINKS } from "@const";
+export { metadata } from "@const";
 
 export default function RootLayout({
   children,
@@ -20,8 +16,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <Providers>
-          <Header categories={getCategories()} links={LINKS} />
-          <article className="prose prose-xl">{children}</article>
+          <article>{children}</article>
         </Providers>
       </body>
     </html>

@@ -2,7 +2,8 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem
+  NavbarItem,
+  Tooltip,
 } from "@components/nextui";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -12,6 +13,7 @@ import { BiSolidBuilding } from "react-icons/bi";
 import Icon from "@components/Icon";
 import ThemeSwitch from "@components/ThemeSwitch";
 import { capitalize } from "@utils";
+import { SITE_NAME, SITE_DESCRIPTION } from "@const";
 
 interface Props {
   categories: string[];
@@ -24,8 +26,11 @@ const Header = (props: Props) => {
   return (
     <Navbar position="sticky" maxWidth="lg">
       <NavbarBrand as={Link} href="/">
-        <BiSolidBuilding />
-        <p className="font-bold sm:block text-inherit">LOGO</p>
+        <BiSolidBuilding size={50} />
+        <div className="grid">
+          <p className="font-bold sm:block text-inherit">{SITE_NAME}</p>
+          <p className="sm:block font-xs text-inherit">{SITE_DESCRIPTION}</p>
+        </div>
       </NavbarBrand>
       <NavbarContent className="md:flex">
         {categories.map((category) => {
@@ -39,9 +44,11 @@ const Header = (props: Props) => {
       <NavbarContent justify="end">
         {links.map((link) => {
           return (
-            <NavbarItem key={link.name} as={Link} href={link.uri}>
-              <Icon icon={link.icon} />
-            </NavbarItem>
+            <Tooltip key={link.name} showArrow={true} content={link.name}>
+              <NavbarItem as={Link} href={link.uri}>
+                <Icon icon={link.icon} />
+              </NavbarItem>
+            </Tooltip>
           );
         })}
         <ThemeSwitch />
