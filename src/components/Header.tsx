@@ -25,7 +25,7 @@ const Header = (props: Props) => {
 
   return (
     <Navbar position="sticky" maxWidth="lg">
-      <NavbarBrand as={Link} href="/">
+      <NavbarBrand as={Link} prefetch={false} href="/">
         <BiSolidBuilding size={50} />
         <div className="grid">
           <p className="font-bold sm:block text-inherit">{SITE_NAME}</p>
@@ -35,7 +35,12 @@ const Header = (props: Props) => {
       <NavbarContent className="md:flex">
         {categories.map((category) => {
           return (
-            <NavbarItem key={category} as={Link} href={`/posts/${category}`}>
+            <NavbarItem
+              key={category}
+              as={Link}
+              href={`/posts/${category}`}
+              prefetch={false}
+            >
               {capitalize(category)}
             </NavbarItem>
           );
@@ -45,7 +50,7 @@ const Header = (props: Props) => {
         {links.map((link) => {
           return (
             <Tooltip key={link.name} showArrow={true} content={link.name}>
-              <NavbarItem as={Link} href={link.uri}>
+              <NavbarItem as={Link} href={link.uri} prefetch={false}>
                 <Icon icon={link.icon} />
               </NavbarItem>
             </Tooltip>
