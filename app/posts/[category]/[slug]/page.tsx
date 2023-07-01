@@ -32,7 +32,6 @@ const PostLayout = ({
 }: {
   params: { category: string; slug: string };
 }) => {
-  console.log({ params });
   const { category, slug } = params;
   const post = allDocuments.find((post) => post.path === `${category}/${slug}`);
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
@@ -42,7 +41,7 @@ const PostLayout = ({
       <div className="mb-8 text-center justify-center">
         <h2 className="text-3xl font-bold">{post.title}</h2>
         <time dateTime={post.date} className="text-xs text-gray-600">
-          {post.date}
+          {post.date?.slice(0, 10)}
         </time>
       </div>
       <div className="[&>*]:mb-3 [&>*:last-child]:mb-0 prose prose-zinc mx-auto md:prose-lg lg:prose-xl dark:prose-invert">
