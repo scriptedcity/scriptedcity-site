@@ -29,7 +29,7 @@ const ListLayout = ({ params }: { params: { category: string } }) => {
       <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center">
         {getFilteredPosts(category).map((post) => (
           <article className="w-full" key={post._id}>
-            <Link href={post.articleName} prefetch={false}>
+            <Link href={post.path} prefetch={false}>
               <ContentCard
                 title={post.title}
                 src={post.image ?? ""}
