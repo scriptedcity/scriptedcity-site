@@ -19,7 +19,7 @@ jobs:
       - name: Install
         run: pnpm install --shamefully-hoist
       - name: Build
-        run: pnpm run build
+        run: pnpm run publish
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:

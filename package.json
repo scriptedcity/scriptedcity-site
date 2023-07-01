@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "publish": "(pnpm run clean && next build)",
     "clean": "rm -rf ./.next ./.contentlayer ./out",
     "start": "(npm run build && cd ./out && npx http-server)",
     "lint": "next lint"
