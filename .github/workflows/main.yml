@@ -1,0 +1,30 @@
+name: 🚀 Deploy website on push
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: "8.6.1"
+      #Node
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+      - name: Install
+        run: pnpm install --shamefully-hoist
+      - name: Build
+        run: pnpm run build
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          local-dir: ./out/
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
