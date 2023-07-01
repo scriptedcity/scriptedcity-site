@@ -22,7 +22,7 @@ export const generateMetadata = ({
 const ListLayout = ({ params }: { params: { category: string } }) => {
   const { category } = params;
   return (
-    <div className="container mx-auto max-w-7xl py-8">
+    <div className="container mx-auto max-w-7xl">
       <h2 className="text-3xl font-bold pt-5 mb-4 w-full text-center">
         {capitalize(category)}
       </h2>
