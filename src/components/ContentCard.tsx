@@ -18,9 +18,9 @@ const ContentCard = (props: ContentCardProps) => {
   const { title, src, date, tags } = props;
   return (
     <Card className="max-w-xs">
-      <CardHeader className="pb-0 pt-0 px-4 flex-col !items-start">
-        <h4 className="text-md text-left">{title}</h4>
-        <p className="text-xs text-left">{date?.slice(0, 10)}</p>
+      <CardHeader className="flex-col !items-start px-4 py-0">
+        <h4 className="text-left text-base">{title}</h4>
+        <p className="text-left text-xs">{date?.slice(0, 10)}</p>
       </CardHeader>
       <CardBody>
         <Image isZoomed alt={title} src={src} height={400} />

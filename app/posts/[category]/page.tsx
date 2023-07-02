@@ -23,10 +23,10 @@ const ListLayout = ({ params }: { params: { category: string } }) => {
   const { category } = params;
   return (
     <div className="container mx-auto max-w-7xl">
-      <h2 className="text-3xl font-bold pt-5 mb-4 w-full text-center">
+      <h2 className="mb-4 w-full pt-5 text-center text-3xl font-bold">
         {capitalize(category)}
       </h2>
-      <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {getFilteredPosts(category).map((post) => (
           <article className="w-full" key={post._id}>
             <Link href={post.path} prefetch={false}>

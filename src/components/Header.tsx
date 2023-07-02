@@ -25,14 +25,14 @@ const Header = (props: Props) => {
 
   return (
     <Navbar position="sticky" maxWidth="lg">
-      <NavbarBrand as={Link} prefetch={false} href="/">
+      <NavbarBrand as={Link} prefetch={false} href="/" className="flex">
         <BiSolidBuilding size={50} />
-        <div className="grid">
-          <p className="font-bold sm:block text-inherit">{SITE_NAME}</p>
-          <p className="sm:block font-xs text-inherit">{SITE_DESCRIPTION}</p>
+        <div className="hidden md:block">
+          <p className="font-bold text-inherit">{SITE_NAME}</p>
+          <p className="text-sm text-inherit">{SITE_DESCRIPTION}</p>
         </div>
       </NavbarBrand>
-      <NavbarContent className="md:flex">
+      <NavbarContent className="flex">
         {categories.map((category) => {
           return (
             <NavbarItem
@@ -40,6 +40,7 @@ const Header = (props: Props) => {
               as={Link}
               href={`/posts/${category}`}
               prefetch={false}
+              className="text-sm font-bold md:text-base"
             >
               {capitalize(category)}
             </NavbarItem>
@@ -47,16 +48,18 @@ const Header = (props: Props) => {
         })}
       </NavbarContent>
       <NavbarContent justify="end">
-        {links.map((link) => {
-          return (
-            <Tooltip key={link.name} showArrow={true} content={link.name}>
-              <NavbarItem as={Link} href={link.uri} prefetch={false}>
-                <Icon icon={link.icon} />
-              </NavbarItem>
-            </Tooltip>
-          );
-        })}
-        <ThemeSwitch />
+        <div className="hidden sm:flex h-full items-center justify-end gap-2">
+          {links.map((link) => {
+            return (
+              <Tooltip key={link.name} showArrow={true} content={link.name}>
+                <NavbarItem as={Link} href={link.uri} prefetch={false}>
+                  <Icon icon={link.icon} />
+                </NavbarItem>
+              </Tooltip>
+            );
+          })}
+          <ThemeSwitch />
+        </div>
       </NavbarContent>
     </Navbar>
   );

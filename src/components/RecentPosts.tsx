@@ -11,7 +11,7 @@ const RecentPosts = (props: RecentPostsProps) => {
   const { category, count } = props;
   const posts = getFilteredPosts(category).slice(0, count ?? 4);
   return (
-    <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {posts.map((post) => (
         <article className="w-full" key={post._id}>
           <Link href={post.url} prefetch={false}>

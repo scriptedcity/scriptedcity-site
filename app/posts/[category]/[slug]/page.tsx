@@ -38,13 +38,13 @@ const PostLayout = ({
 
   return (
     <article className="container mx-auto max-w-5xl py-8">
-      <div className="mb-8 text-center justify-center">
+      <div className="mb-8 justify-center text-center">
         <h2 className="text-3xl font-bold">{post.title}</h2>
         <time dateTime={post.date} className="text-xs text-gray-600">
           {post.date?.slice(0, 10)}
         </time>
       </div>
-      <div className="[&>*]:mb-3 [&>*:last-child]:mb-0 prose prose-zinc mx-auto md:prose-lg lg:prose-xl dark:prose-invert">
+      <div className="prose prose-zinc mx-auto dark:prose-invert md:prose-lg lg:prose-xl [&>*:last-child]:mb-0 [&>*]:mb-3">
         <ContentRenderer post={post} />
       </div>
     </article>
