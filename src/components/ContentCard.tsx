@@ -4,6 +4,7 @@ import {
   CardBody,
   CardFooter,
   Image,
+  Divider,
 } from "@components/nextui";
 import TagCloud from "@components/TagCloud";
 
@@ -18,12 +19,14 @@ const ContentCard = (props: ContentCardProps) => {
   const { title, src, date, tags } = props;
   return (
     <Card className="max-w-xs">
-      <CardHeader className="flex-col !items-start px-4 py-0">
-        <h4 className="text-left text-base">{title}</h4>
-        <p className="text-left text-xs">{date?.slice(0, 10)}</p>
+      <CardHeader className="flex-col">
+        <p className="pb-2 text-left text-xs text-slate-600 dark:text-slate-400">
+          {date?.slice(0, 10)}
+        </p>
+        <Image isZoomed alt={title} src={src} height={400} />
       </CardHeader>
       <CardBody>
-        <Image isZoomed alt={title} src={src} height={400} />
+        <h4 className="text-left text-base">{title}</h4>
       </CardBody>
       <CardFooter>
         <TagCloud tags={tags} />

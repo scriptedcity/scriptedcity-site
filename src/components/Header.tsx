@@ -1,4 +1,5 @@
 import {
+  Divider,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -32,7 +33,7 @@ const Header = (props: Props) => {
           <p className="text-sm text-inherit">{SITE_DESCRIPTION}</p>
         </div>
       </NavbarBrand>
-      <NavbarContent className="flex">
+      <NavbarContent className="flex px-4">
         {categories.map((category) => {
           return (
             <NavbarItem
@@ -48,7 +49,7 @@ const Header = (props: Props) => {
         })}
       </NavbarContent>
       <NavbarContent justify="end">
-        <div className="hidden sm:flex h-full items-center justify-end gap-2">
+        <div className="hidden h-full items-center justify-end gap-2 sm:flex">
           {links.map((link) => {
             return (
               <Tooltip key={link.name} showArrow={true} content={link.name}>

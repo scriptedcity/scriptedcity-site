@@ -22,13 +22,13 @@ export const generateMetadata = ({
 const ListLayout = ({ params }: { params: { category: string } }) => {
   const { category } = params;
   return (
-    <div className="container mx-auto max-w-7xl">
+    <div className="container mx-auto max-w-7xl px-8">
       <h2 className="mb-4 w-full pt-5 text-center text-3xl font-bold">
         {capitalize(category)}
       </h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-stretch md:grid-cols-3 lg:grid-cols-4">
         {getFilteredPosts(category).map((post) => (
-          <article className="w-full" key={post._id}>
+          <article className="w-fit" key={post._id}>
             <Link href={post.path} prefetch={false}>
               <ContentCard
                 title={post.title}
