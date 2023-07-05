@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 
 const Icon = (props: {
   icon: ReactNode;
+  size?: "sm" | "md" | "lg" | "xl";
   color?:
     | "default"
     | "primary"
@@ -14,7 +15,8 @@ const Icon = (props: {
 }) => {
   return (
     <Avatar
-      size="sm"
+      size={props.size ?? "sm"}
+      color={props.color ?? "default"}
       icon={props.icon}
     />
   );

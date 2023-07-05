@@ -15,7 +15,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import { BiSolidBuilding } from "react-icons/bi";
-import { BsFillMenuAppFill } from "react-icons/bs";
+import { RxDropdownMenu } from "react-icons/rx";
 
 import Icon from "@components/Icon";
 import ThemeSwitch from "@components/ThemeSwitch";
@@ -66,20 +66,26 @@ const Header = (props: Props) => {
           <Dropdown placement="bottom-start">
             <DropdownTrigger>
               <Button size="sm" color="primary" isIconOnly>
-                <BsFillMenuAppFill />
+                <RxDropdownMenu size="20" />
               </Button>
             </DropdownTrigger>
-            <DropdownMenu selectionMode="none">
-              {categories.map((category) => {
+            <DropdownMenu
+              selectionMode="none"
+              aria-label="Single selection actions"
+            >
+              {["top", ...categories].map((category) => {
                 return (
-                  <DropdownItem
-                    key={category}
-                    color="primary"
-                    className="text-sm font-bold"
-                  >
-                    <Link href={`/posts/${category}`} prefetch={false}>
+                  <DropdownItem key={category} textValue={category}>
+                    <Button
+                      fullWidth
+                      size="sm"
+                      as={Link}
+                      href={category === "top" ? "/" : `/posts/${category}`}
+                      prefetch={false}
+                      variant="light"
+                    >
                       {capitalize(category)}
-                    </Link>
+                    </Button>
                   </DropdownItem>
                 );
               })}
