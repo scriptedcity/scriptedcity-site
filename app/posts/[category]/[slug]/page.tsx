@@ -44,7 +44,7 @@ const PostLayout = ({
           {post.date?.slice(0, 10)}
         </time>
       </div>
-      <div className="prose prose-zinc mx-auto dark:prose-invert md:prose-lg lg:prose-xl [&>*:last-child]:mb-0 [&>*]:mb-3">
+      <div className="markdown mx-auto px-4 [&>*:last-child]:mb-0 [&>*]:mb-3">
         <ContentRenderer post={post} />
       </div>
     </article>

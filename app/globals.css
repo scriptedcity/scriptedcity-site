@@ -9,3 +9,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.markdown {
+  @apply prose prose-zinc dark:prose-invert md:prose-lg lg:prose-xl;
+}

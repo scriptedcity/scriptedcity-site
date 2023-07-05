@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import ContentCard from "@components/ContentCard";
-import { getCategories, capitalize, titlize, getFilteredPosts } from "@utils";
+import { getCategories, capitalize, getFilteredPosts } from "@utils";
 
 export const generateStaticParams = async () => {
   return getCategories().map((category) => ({
