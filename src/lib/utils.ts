@@ -1,4 +1,4 @@
-import { allDocuments } from "contentlayer/generated";
+import { DocumentTypes, allDocuments } from "contentlayer/generated";
 import { SITE_NAME, TITLE_SEPARATOR } from "@const";
 
 export const capitalize = (string: string) => {
@@ -19,22 +19,43 @@ export const getCategories = () => {
   return categories;
 };
 
-export const getFilteredPosts = (category?: string) => {
+export const getTags = () => {
+  const tags: string[] = [];
+  allDocuments.forEach((post) => {
+    post.tags.forEach((tag) => {
+      if (!tags.includes(tag)) {
+        tags.push(tag);
+      }
+    });
+  });
+  return tags.sort();
+};
+
+const sortFunction = (a: DocumentTypes, b: DocumentTypes) => {
+  if (a.date == null && b.date != null) {
+    return -1;
+  }
+  if (a.date != null && b.date == null) {
+    return 1;
+  }
+  if (a.date == null && b.date == null) {
+    return a._id > b._id ? -1 : 1;
+  }
+  if (a.date != null && b.date != null) {
+    return a.date > b.date ? -1 : 1;
+  }
+  return 0;
+};
+
+export const listPostsByCategory = (category?: string) => {
   return allDocuments
     .filter((post) => post.categoryName === category || !category)
-    .sort((a, b) => {
-      if (a.date == null && b.date != null) {
-        return -1;
-      }
-      if (a.date != null && b.date == null) {
-        return 1;
-      }
-      if (a.date == null && b.date == null) {
-        return a._id > b._id ? -1 : 1;
-      }
-      if (a.date != null && b.date != null) {
-        return a.date > b.date ? -1 : 1;
-      }
-      return 0;
-    });
+    .sort(sortFunction);
+};
+
+export const listPostsByTag = (tag: string) => {
+  const decodedTag = decodeURIComponent(tag);
+  return allDocuments
+    .filter((post) => post.tags.includes(decodedTag))
+    .sort(sortFunction);
 };

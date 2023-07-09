@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getFilteredPosts } from "@utils";
+import { listPostsByCategory } from "@utils";
 import ContentCard from "@components/ContentCard";
 
 interface RecentPostsProps {
@@ -9,7 +9,7 @@ interface RecentPostsProps {
 
 const RecentPosts = (props: RecentPostsProps) => {
   const { category, count } = props;
-  const posts = getFilteredPosts(category).slice(0, count ?? 4);
+  const posts = listPostsByCategory(category).slice(0, count ?? 4);
   return (
     <div className="container mx-auto max-w-7xl px-8">
       <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-stretch md:grid-cols-3 lg:grid-cols-4">

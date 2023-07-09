@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <>
       <Header categories={getCategories()} links={LINKS} />
-      <article>{children}</article>
+      {children}
     </>
   );
 }

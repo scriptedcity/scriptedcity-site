@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import ContentCard from "@components/ContentCard";
-import { getCategories, capitalize, getFilteredPosts } from "@utils";
+import { getCategories, capitalize, listPostsByCategory } from "@utils";
 
 export const generateStaticParams = async () => {
   return getCategories().map((category) => ({
@@ -27,7 +27,7 @@ const ListLayout = ({ params }: { params: { category: string } }) => {
         {capitalize(category)}
       </h2>
       <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-stretch md:grid-cols-3 lg:grid-cols-4">
-        {getFilteredPosts(category).map((post) => (
+        {listPostsByCategory(category).map((post) => (
           <article className="w-fit" key={post._id}>
             <Link href={post.path} prefetch={false}>
               <ContentCard

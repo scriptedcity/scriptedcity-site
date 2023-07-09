@@ -3,6 +3,7 @@ import React from "react";
 
 import { allDocuments } from "contentlayer/generated";
 import ContentRenderer from "@/src/components/ContentRenderer";
+import TagCloud from "@/src/components/TagCloud";
 
 export const generateStaticParams = async () => {
   return allDocuments.map((post) => {
@@ -39,7 +40,11 @@ const PostLayout = ({
   return (
     <article className="container mx-auto max-w-5xl py-8">
       <div className="mb-8 justify-center text-center">
-        <h2 className="text-3xl font-bold">{post.title}</h2>
+        <h2 className="mb-2 text-3xl font-bold">{post.title}</h2>
+        <TagCloud
+          className="mb-2 justify-center text-center"
+          tags={post.tags}
+        />
         <time dateTime={post.date} className="text-xs text-gray-600">
           {post.date?.slice(0, 10)}
         </time>
