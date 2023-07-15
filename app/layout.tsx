@@ -1,3 +1,9 @@
+"use client";
+
+import Header from "@components/Header";
+import { getCategories } from "@utils";
+import { LINKS } from "@const";
+
 import "@/app/globals.css";
 import { Providers } from "./providers";
 import { Inter, Roboto_Mono } from "next/font/google";
@@ -14,8 +20,6 @@ const roboto_mono = Roboto_Mono({
   variable: "--font-roboto-mono",
 });
 
-export { metadata } from "@const";
-
 export default function RootLayout({
   children,
 }: {
@@ -23,12 +27,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" className={`${inter.variable} ${roboto_mono.variable}`}>
-      <body>
+      <body className="background">
         <link
           href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism-tomorrow.min.css"
           rel="stylesheet"
         />
         <Providers>
+          <Header categories={getCategories()} links={LINKS} />
           <article>{children}</article>
         </Providers>
       </body>

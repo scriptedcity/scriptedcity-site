@@ -4,7 +4,6 @@ import {
   CardBody,
   CardFooter,
   Image,
-  Divider,
 } from "@components/nextui";
 import TagCloud from "@components/TagCloud";
 
