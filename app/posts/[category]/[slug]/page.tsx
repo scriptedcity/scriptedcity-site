@@ -4,6 +4,7 @@ import React from "react";
 import { allDocuments } from "contentlayer/generated";
 import ContentRenderer from "@/src/components/ContentRenderer";
 import TagCloud from "@/src/components/TagCloud";
+import { Image } from "@/src/components/nextui";
 
 export const generateStaticParams = async () => {
   return allDocuments.map((post) => {
@@ -40,7 +41,9 @@ const PostLayout = ({
   return (
     <article className="container mx-auto max-w-5xl py-8">
       <div className="mb-8 justify-center text-center">
-        <h2 className="mb-2 text-3xl font-bold">{post.title}</h2>
+        <h2 className="mb-2 bg-cover text-5xl font-bold backdrop-blur-md">
+          {post.title}
+        </h2>
         <TagCloud
           className="mb-2 justify-center text-center"
           tags={post.tags}
