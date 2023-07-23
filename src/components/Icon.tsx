@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 const Icon = (props: {
   icon: ReactNode;
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "sm" | "md" | "lg";
   color?:
     | "default"
     | "primary"
