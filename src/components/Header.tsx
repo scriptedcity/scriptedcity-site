@@ -44,7 +44,7 @@ const Header = (props: Props) => {
           <p className="text-sm text-inherit">{SITE_DESCRIPTION}</p>
         </div>
       </NavbarBrand>
-      <NavbarContent className="px-4" justify="start">
+      <NavbarContent className="px-4" justify="center">
         <ButtonGroup className="hidden lg:block">
           {categories.map((category) => {
             return (
@@ -82,7 +82,6 @@ const Header = (props: Props) => {
                       as={Link}
                       href={category === "top" ? "/" : `/posts/${category}`}
                       prefetch={false}
-                      variant="light"
                     >
                       {capitalize(category)}
                     </Button>

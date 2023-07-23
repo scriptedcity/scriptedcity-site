@@ -28,7 +28,8 @@ const TagChip = (props: TagChipProps) => {
     <Chip
       color={color ?? "primary"}
       radius="sm"
-      size="xs"
+      size="sm"
+      variant="flat"
       classNames={{
         base: "whitespace-nowrap",
       }}

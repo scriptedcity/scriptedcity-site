@@ -6,14 +6,10 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 .markdown {
   @apply prose prose-zinc dark:prose-invert md:prose-lg lg:prose-xl;
 }
 
 .background {
-  @apply bg-gradient-to-br from-zinc-50 via-slate-100 to-zinc-50 dark:bg-gradient-to-br dark:from-zinc-950 dark:via-zinc-800 dark:to-zinc-950 min-h-screen;
+  @apply bg-gradient-to-br from-zinc-50 via-zinc-100 to-zinc-50 dark:bg-gradient-to-br dark:from-zinc-950 dark:via-zinc-800 dark:to-zinc-950 min-h-screen;
 }
