@@ -40,8 +40,8 @@ const Header = (props: Props) => {
       >
         <BiSolidBuilding size={30} />
         <div>
-          <p className="font-bold text-inherit">{SITE_NAME}</p>
-          <p className="text-sm text-inherit">{SITE_DESCRIPTION}</p>
+          <p className="logo font-bold text-inherit">{SITE_NAME}</p>
+          <p className="logo text-sm text-inherit">{SITE_DESCRIPTION}</p>
         </div>
       </NavbarBrand>
       <NavbarContent className="px-4" justify="center">

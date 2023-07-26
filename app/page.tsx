@@ -13,19 +13,13 @@ export default function Home() {
           <About />
         </div>
         {/* Recent posts */}
-        <div className="markdown">
-          <h2>Recent Posts</h2>
-        </div>
+        <h2>Recent Posts</h2>
         <RecentPosts />
         {/* Works */}
-        <div className="markdown">
-          <h2>Works</h2>
-        </div>
+        <h2>Works</h2>
         <RecentPosts category="works" />
         {/* discography */}
-        <div className="markdown">
-          <h2>Discography</h2>
-        </div>
+        <h2>Discography</h2>
         <RecentPosts category="discography" />
       </div>
     </main>
