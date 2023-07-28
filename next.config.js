@@ -7,7 +7,7 @@ const remarkBreaks = import("remark-breaks");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
-  trailingSlash: false,
+  trailingSlash: true,
   output: "export",
   /*
   experimental: {
