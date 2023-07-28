@@ -4,6 +4,8 @@ import React from "react";
 import { allDocuments } from "contentlayer/generated";
 import ContentRenderer from "@/src/components/ContentRenderer";
 import TagCloud from "@/src/components/TagCloud";
+import TweetButton from "@/src/components/TweetButton";
+import { SITE_URL } from "@const";
 
 export const generateStaticParams = async () => {
   return allDocuments.map((post) => {
@@ -39,17 +41,24 @@ const PostLayout = ({
 
   return (
     <article className="container mx-auto max-w-5xl py-8">
-      <div className="mb-8 justify-center text-center">
-        <h2 className="mb-2 bg-cover text-5xl font-extrabold backdrop-blur-md">
+      <div className="justify-center text-center">
+        <h2 className="bg-cover text-5xl font-extrabold backdrop-blur-md">
           {post.title}
         </h2>
         <TagCloud
-          className="mb-2 justify-center text-center"
+          className="mt-4 mb-2 justify-center text-center"
           tags={post.tags}
         />
         <time dateTime={post.date} className="text-xs text-gray-600">
           {post.date?.slice(0, 10)}
         </time>
+      </div>
+      <div className="mt-2 flex justify-center">
+        <TweetButton
+          title={post.title}
+          url={`${SITE_URL}/${post.path}`}
+          tags={post.tags}
+        />
       </div>
       <div className="markdown mx-auto px-4 [&>*:last-child]:mb-0 [&>*]:mb-3">
         <ContentRenderer post={post} />
