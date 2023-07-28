@@ -56,7 +56,7 @@ const PostLayout = ({
       <div className="mt-2 flex justify-center">
         <TweetButton
           title={post.title}
-          url={`${SITE_URL}/${post.path}`}
+          url={`${SITE_URL}/posts/${post.path}`}
           tags={post.tags}
         />
       </div>
