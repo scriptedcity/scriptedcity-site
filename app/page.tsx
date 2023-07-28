@@ -1,7 +1,6 @@
 "use client";
 import Profile from "@contents/profile.mdx";
 import About from "@contents/about.mdx";
-
 import RecentPosts from "@components/RecentPosts";
 
 export default function Home() {

@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "@components/Header";
 import { getCategories } from "@utils";
 import { LINKS } from "@const";
@@ -7,6 +5,8 @@ import { LINKS } from "@const";
 import "@/app/globals.css";
 import { Providers } from "./providers";
 import { Inter, Roboto_Mono } from "next/font/google";
+
+export { metadata } from "@const";
 
 const inter = Inter({
   subsets: ["latin"],

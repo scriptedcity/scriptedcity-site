@@ -1,4 +1,5 @@
 // metadata
+import { Metadata } from "next";
 export const SITE_NAME = "Scripted City Revised.";
 export const SITE_DESCRIPTION = "millstones web site";
 export const TITLE_SEPARATOR = "|";
@@ -7,7 +8,7 @@ export const SITE_URL = "https://scriptedcity.aroundhalf.info";
 /**
     process.env.NODE_ENV === "development" ? "http://localhost:3000" :
      */
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_NAME,
