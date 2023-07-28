@@ -46,7 +46,7 @@ const PostLayout = ({
           {post.title}
         </h2>
         <TagCloud
-          className="mt-4 mb-2 justify-center text-center"
+          className="mb-2 mt-4 justify-center text-center"
           tags={post.tags}
         />
         <time dateTime={post.date} className="text-xs text-gray-600">
