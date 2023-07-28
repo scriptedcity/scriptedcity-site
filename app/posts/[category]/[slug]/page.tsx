@@ -5,6 +5,7 @@ import { allDocuments } from "contentlayer/generated";
 import ContentRenderer from "@/src/components/ContentRenderer";
 import TagCloud from "@/src/components/TagCloud";
 import TweetButton from "@/src/components/TweetButton";
+import GithubButton from "@/src/components/GithubButton";
 import { SITE_URL } from "@const";
 
 export const generateStaticParams = async () => {
@@ -53,12 +54,13 @@ const PostLayout = ({
           {post.date?.slice(0, 10)}
         </time>
       </div>
-      <div className="mt-2 flex justify-center">
+      <div className="mt-2 flex justify-center gap-1">
         <TweetButton
           title={post.title}
-          url={`${SITE_URL}/posts/${post.path}`}
+          url={`${SITE_URL}${post.url}`}
           tags={post.tags}
         />
+        <GithubButton path={post._raw.sourceFilePath} />
       </div>
       <div className="markdown mx-auto px-4 [&>*:last-child]:mb-0 [&>*]:mb-3">
         <ContentRenderer post={post} />

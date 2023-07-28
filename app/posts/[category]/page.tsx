@@ -29,7 +29,7 @@ const ListLayout = ({ params }: { params: { category: string } }) => {
       <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-stretch md:grid-cols-3 lg:grid-cols-4">
         {listPostsByCategory(category).map((post) => (
           <article className="w-fit" key={post._id}>
-            <Link href={post.path} prefetch={false}>
+            <Link href={post.url} prefetch={false}>
               <ContentCard
                 title={post.title}
                 src={post.image ?? ""}
