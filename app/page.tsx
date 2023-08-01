@@ -12,13 +12,13 @@ export default function Home() {
           <About />
         </div>
         {/* Recent posts */}
-        <h2>Recent Posts</h2>
+        <h2 className="my-4 text-3xl font-bold">Recent Posts</h2>
         <RecentPosts />
         {/* Works */}
-        <h2>Works</h2>
+        <h2 className="my-4 text-3xl font-bold">Works</h2>
         <RecentPosts category="works" />
         {/* discography */}
-        <h2>Discography</h2>
+        <h2 className="my-4 text-3xl font-bold">Discography</h2>
         <RecentPosts category="discography" />
       </div>
     </main>
