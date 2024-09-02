@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: "latest"
       - name: Install
-        run: pnpm install --shamefully-hoist
+        run: pnpm install --shamefully-hoist --no-frozen-lockfile
       - name: Build
         run: pnpm run publish
       - name: Sync files
