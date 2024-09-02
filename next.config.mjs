@@ -1,8 +1,8 @@
-const { withContentlayer } = require("next-contentlayer");
-const nextMdx = require("@next/mdx");
-const remarkGfm = import("remark-gfm");
-const rehypePrism = require("@mapbox/rehype-prism");
-const remarkBreaks = import("remark-breaks");
+import { withContentlayer } from "next-contentlayer2";
+import nextMdx from "@next/mdx";
+import remarkGfm from "remark-gfm";
+import rehypePrism from "rehype-prism-plus";
+import remarkBreaks from "remark-breaks";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -24,4 +24,4 @@ const withMDX = nextMdx({
   },
 });
 
-module.exports = withContentlayer(withMDX(nextConfig));
+export default withContentlayer(withMDX(nextConfig));

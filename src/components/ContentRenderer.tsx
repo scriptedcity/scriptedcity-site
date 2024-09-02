@@ -1,5 +1,5 @@
 "use client";
-import { getMDXComponent } from "next-contentlayer/hooks";
+import { getMDXComponent } from "next-contentlayer2/hooks";
 import { Post, PostMdx } from "contentlayer/generated";
 
 const ContentRenderer = (props: { post: Post | PostMdx }) => {
