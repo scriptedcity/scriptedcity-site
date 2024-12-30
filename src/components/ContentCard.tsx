@@ -1,11 +1,11 @@
+import TagCloud from "@components/TagCloud";
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Image,
 } from "@components/nextui";
-import TagCloud from "@components/TagCloud";
 
 interface ContentCardProps {
   title: string;
@@ -19,7 +19,7 @@ const ContentCard = (props: ContentCardProps) => {
   return (
     <Card className="max-w-xs">
       <CardHeader className="flex-col">
-        <p className="pb-2 text-left text-xs text-slate-600 dark:text-slate-400">
+        <p className="pb-2 text-left text-slate-600 text-xs dark:text-slate-400">
           {date?.slice(0, 10)}
         </p>
         <Image isZoomed alt={title} src={src} height={400} />

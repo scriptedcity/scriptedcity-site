@@ -1,5 +1,5 @@
-import { DocumentTypes, allDocuments } from "contentlayer/generated";
 import { SITE_NAME, TITLE_SEPARATOR } from "@const";
+import { type DocumentTypes, allDocuments } from "contentlayer/generated";
 
 export const capitalize = (string: string) => {
   return string[0].toUpperCase() + string.substring(1).toLowerCase();
@@ -11,23 +11,17 @@ export const titlize = (title: string) => {
 
 export const getCategories = () => {
   const categories: string[] = [];
-  allDocuments.forEach((post) => {
-    if (!categories.includes(post.categoryName)) {
-      categories.push(post.categoryName);
-    }
-  });
+  allDocuments
+    .filter((post) => post.categoryName !== null)
+    .map((post) => post.categoryName);
   return categories;
 };
 
 export const getTags = () => {
   const tags: string[] = [];
-  allDocuments.forEach((post) => {
-    post.tags.forEach((tag) => {
-      if (!tags.includes(tag)) {
-        tags.push(tag);
-      }
-    });
-  });
+  for (const post of allDocuments) {
+    post.tags.filter((tag) => !tags.includes(tag)).map((tag) => tags.push(tag));
+  }
   return tags.sort();
 };
 

@@ -1,5 +1,5 @@
 import { Avatar } from "@nextui-org/react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const Icon = (props: {
   icon: ReactNode;

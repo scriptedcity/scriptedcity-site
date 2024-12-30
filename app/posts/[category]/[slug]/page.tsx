@@ -1,12 +1,12 @@
 // display article
 import React from "react";
 
-import { allDocuments } from "contentlayer/generated";
 import ContentRenderer from "@/src/components/ContentRenderer";
+import GithubButton from "@/src/components/GithubButton";
 import TagCloud from "@/src/components/TagCloud";
 import TweetButton from "@/src/components/TweetButton";
-import GithubButton from "@/src/components/GithubButton";
 import { SITE_URL } from "@const";
+import { allDocuments } from "contentlayer/generated";
 
 export const generateStaticParams = async () => {
   return allDocuments.map((post) => {
@@ -43,14 +43,14 @@ const PostLayout = ({
   return (
     <article className="container mx-auto max-w-5xl py-8">
       <div className="justify-center text-center">
-        <h2 className="bg-cover text-5xl font-extrabold backdrop-blur-md">
+        <h2 className="bg-cover font-extrabold text-5xl backdrop-blur-md">
           {post.title}
         </h2>
         <TagCloud
-          className="mb-2 mt-4 justify-center text-center"
+          className="mt-4 mb-2 justify-center text-center"
           tags={post.tags}
         />
-        <time dateTime={post.date} className="text-xs text-gray-600">
+        <time dateTime={post.date} className="text-gray-600 text-xs">
           {post.date?.slice(0, 10)}
         </time>
       </div>

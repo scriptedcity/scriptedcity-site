@@ -1,7 +1,7 @@
 "use client";
-import Profile from "@contents/profile.mdx";
-import About from "@contents/about.mdx";
 import RecentPosts from "@components/RecentPosts";
+import About from "@contents/about.mdx";
+import Profile from "@contents/profile.mdx";
 
 export default function Home() {
   return (
@@ -12,13 +12,13 @@ export default function Home() {
           <About />
         </div>
         {/* Recent posts */}
-        <h2 className="my-4 text-3xl font-bold">Recent Posts</h2>
+        <h2 className="my-4 font-bold text-3xl">Recent Posts</h2>
         <RecentPosts />
         {/* Works */}
-        <h2 className="my-4 text-3xl font-bold">Works</h2>
+        <h2 className="my-4 font-bold text-3xl">Works</h2>
         <RecentPosts category="works" />
         {/* discography */}
-        <h2 className="my-4 text-3xl font-bold">Discography</h2>
+        <h2 className="my-4 font-bold text-3xl">Discography</h2>
         <RecentPosts category="discography" />
       </div>
     </main>

@@ -11,7 +11,7 @@ interface Props {
   twitterSite: string;
 }
 
-const OgpHead = (props:Props) => {
+const OgpHead = (props: Props) => {
   const {
     type,
     title,

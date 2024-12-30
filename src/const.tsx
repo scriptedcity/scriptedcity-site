@@ -1,5 +1,5 @@
 // metadata
-import { Metadata } from "next";
+import type { Metadata } from "next";
 export const SITE_NAME = "Scripted City Revised.";
 export const SITE_DESCRIPTION = "millstones web site";
 export const TITLE_SEPARATOR = "|";
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 // theme
-import { MdOutlineModeNight, MdOutlineLightMode } from "react-icons/md";
+import { MdOutlineLightMode, MdOutlineModeNight } from "react-icons/md";
 import { TbSunMoon } from "react-icons/tb";
 
 export const themes = [
@@ -61,7 +61,7 @@ export const themes = [
 ];
 
 // links
-import { FaGithub, FaYoutube, FaTwitter, FaRegEnvelope } from "react-icons/fa";
+import { FaGithub, FaRegEnvelope, FaTwitter, FaYoutube } from "react-icons/fa";
 import { SiNiconico } from "react-icons/si";
 
 export const LINKS = [

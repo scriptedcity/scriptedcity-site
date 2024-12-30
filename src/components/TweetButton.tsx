@@ -1,8 +1,8 @@
 "use client";
 
+import Icon from "@components/Icon";
 import Link from "next/link";
 import { FaTwitter } from "react-icons/fa";
-import Icon from "@components/Icon";
 
 interface Props {
   title: string;
@@ -17,7 +17,7 @@ const TweetButton = ({ title, url, tags }: Props) => {
   return (
     <Link
       href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        title
+        title,
       )}&url=${url}&hashtags=${tagsToText(tags)}`}
     >
       <Icon icon={<FaTwitter />} />

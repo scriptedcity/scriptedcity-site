@@ -1,28 +1,28 @@
 "use client";
 
 import {
+  Button,
+  ButtonGroup,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
   Tooltip,
-  Button,
-  ButtonGroup,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
 } from "@components/nextui";
 import Link from "next/link";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { BiSolidBuilding } from "react-icons/bi";
 import { RxDropdownMenu } from "react-icons/rx";
 
 import Icon from "@components/Icon";
 import ThemeSwitch from "@components/ThemeSwitch";
+import { SITE_DESCRIPTION, SITE_NAME } from "@const";
 import { capitalize } from "@utils";
-import { SITE_NAME, SITE_DESCRIPTION } from "@const";
 
 interface Props {
   categories: string[];
@@ -43,7 +43,7 @@ const Header = (props: Props) => {
         <BiSolidBuilding size={30} />
         <div>
           <p className="logo font-bold text-inherit">{SITE_NAME}</p>
-          <p className="logo text-sm text-inherit">{SITE_DESCRIPTION}</p>
+          <p className="logo text-inherit text-sm">{SITE_DESCRIPTION}</p>
         </div>
       </NavbarBrand>
       <NavbarContent className="px-4" justify="center">
@@ -57,7 +57,7 @@ const Header = (props: Props) => {
                 prefetch={false}
                 size="sm"
                 color="primary"
-                className="text-sm font-bold"
+                className="font-bold text-sm"
               >
                 {capitalize(category)}
               </Button>

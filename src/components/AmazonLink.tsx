@@ -3,7 +3,7 @@
 const AmazonLink = (props: { src: string }) => {
   const { src } = props;
   return (
-    <iframe style={{ width: "120px", height: "240px" }} src={src}></iframe>
+    <iframe title="src" style={{ width: "120px", height: "240px" }} src={src} />
   );
 };
 export default AmazonLink;

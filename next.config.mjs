@@ -1,8 +1,8 @@
-import { withContentlayer } from "next-contentlayer2";
 import nextMdx from "@next/mdx";
-import remarkGfm from "remark-gfm";
+import { withContentlayer } from "next-contentlayer2";
 import rehypePrism from "rehype-prism-plus";
 import remarkBreaks from "remark-breaks";
+import remarkGfm from "remark-gfm";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

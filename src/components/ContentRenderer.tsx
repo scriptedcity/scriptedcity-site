@@ -1,6 +1,6 @@
 "use client";
+import type { Post, PostMdx } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer2/hooks";
-import { Post, PostMdx } from "contentlayer/generated";
 
 const ContentRenderer = (props: { post: Post | PostMdx }) => {
   const { post } = props;
@@ -12,11 +12,11 @@ const ContentRenderer = (props: { post: Post | PostMdx }) => {
         }}
       />
     );
-  } else if ("code" in post.body) {
+  }
+  if ("code" in post.body) {
     const MDXComponent = getMDXComponent(post.body.code as string);
     return <MDXComponent />;
-  } else {
-    return null;
   }
+  return null;
 };
 export default ContentRenderer;

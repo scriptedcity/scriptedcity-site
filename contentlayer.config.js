@@ -1,6 +1,6 @@
 import { defineDocumentType, makeSource } from "contentlayer2/source-files";
-import remarkGfm from "remark-gfm";
 import rehypePrism from "rehype-prism-plus";
+import remarkGfm from "remark-gfm";
 
 const getPath = (doc) => {
   const { category, slug } = doc;
@@ -70,7 +70,7 @@ const computedFields = {
 
 const Post = defineDocumentType(() => ({
   name: "Post",
-  filePathPattern: `**/!(*_draft).md`,
+  filePathPattern: "**/!(*_draft).md",
   contentType: "markdown",
   fields,
   computedFields,
@@ -78,7 +78,7 @@ const Post = defineDocumentType(() => ({
 
 const PostMdx = defineDocumentType(() => ({
   name: "PostMdx",
-  filePathPattern: `**/!(*_draft).mdx`,
+  filePathPattern: "**/!(*_draft).mdx",
   contentType: "mdx",
   fields,
   computedFields,

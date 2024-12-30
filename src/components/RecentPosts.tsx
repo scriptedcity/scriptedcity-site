@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { listPostsByCategory } from "@utils";
 import ContentCard from "@components/ContentCard";
+import { listPostsByCategory } from "@utils";
+import Link from "next/link";
 
 interface RecentPostsProps {
   category?: string;

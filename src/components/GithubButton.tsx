@@ -1,8 +1,8 @@
 "use client";
 
+import Icon from "@components/Icon";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
-import Icon from "@components/Icon";
 
 interface Props {
   path: string;
@@ -11,7 +11,7 @@ const GithubButton = ({ path }: Props) => {
   return (
     <Link
       href={`https://github.com/scriptedcity/scriptedcity-site/blob/main/contents/posts/${encodeURIComponent(
-        path
+        path,
       )}`}
     >
       <Icon icon={<FaGithub />} />

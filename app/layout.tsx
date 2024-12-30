@@ -1,10 +1,10 @@
 import Header from "@components/Header";
-import { getCategories } from "@utils";
 import { LINKS } from "@const";
+import { getCategories } from "@utils";
 
 import "@/app/globals.css";
-import { Providers } from "./providers";
 import { Inter, Roboto_Mono } from "next/font/google";
+import { Providers } from "./providers";
 
 export { metadata } from "@const";
 
