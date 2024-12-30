@@ -9,10 +9,10 @@ interface RecentPostsProps {
 
 const RecentPosts = (props: RecentPostsProps) => {
   const { category, count } = props;
-  const posts = listPostsByCategory(category).slice(0, count ?? 4);
+  const posts = listPostsByCategory(category).slice(0, count ?? 6);
   return (
     <div className="container mx-auto max-w-7xl px-8">
-      <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-stretch md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-1 sm:justify-stretch md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <article className="w-fit" key={post._id}>
             <Link href={post.url} prefetch={false}>

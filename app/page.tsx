@@ -8,7 +8,7 @@ export default function Home() {
     <main>
       <div className="container mx-auto max-w-xl px-8 pb-8 md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
         <div className="markdown">
-          <Profile className="m-4" />
+          <Profile />
           <About />
         </div>
         {/* Recent posts */}

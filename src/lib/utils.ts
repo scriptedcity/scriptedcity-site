@@ -10,11 +10,10 @@ export const titlize = (title: string) => {
 };
 
 export const getCategories = () => {
-  const categories: string[] = [];
-  allDocuments
+  const categories: string[] = allDocuments
     .filter((post) => post.categoryName !== null)
     .map((post) => post.categoryName);
-  return categories;
+  return [...new Set(categories)];
 };
 
 export const getTags = () => {
