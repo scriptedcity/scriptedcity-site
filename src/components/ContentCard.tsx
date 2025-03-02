@@ -17,7 +17,7 @@ interface ContentCardProps {
 const ContentCard = (props: ContentCardProps) => {
   const { title, src, date, tags } = props;
   return (
-    <Card className="max-w-xs">
+    <Card className="max-w-sm">
       <CardHeader className="flex-col">
         <p className="pb-2 text-left text-slate-600 text-xs dark:text-slate-400">
           {date?.slice(0, 10)}

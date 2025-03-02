@@ -26,9 +26,9 @@ const ListLayout = ({ params }: { params: { category: string } }) => {
       <h2 className="mb-4 w-full pt-5 text-center font-bold text-3xl">
         {capitalize(category)}
       </h2>
-      <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-1 sm:justify-stretch md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 place-content-stretch justify-items-center gap-4 sm:grid-cols-1 sm:justify-stretch md:grid-cols-2 lg:grid-cols-3">
         {listPostsByCategory(category).map((post) => (
-          <article className="w-fit" key={post._id}>
+          <article className="w-full" key={post._id}>
             <Link href={post.url} prefetch={false}>
               <ContentCard
                 title={post.title}
