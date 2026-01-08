@@ -1,0 +1,19 @@
+---
+import { Icon } from "astro-icon/components";
+
+const tagsToText = (tags: string[]) => {
+  return tags.map((tag) => tag.replace(/ /g, "")).join(",");
+};
+
+const { title, url, tags } = Astro.props;
+---
+
+<a
+  class="avatar rounded-full bg-neutral text-neutral-content size-8 tooltip tooltip-bottom items-center justify-center"
+  data-tip="Xにポスト"
+  href={`https://x.com/intent/tweet?text=${encodeURIComponent(
+    title,
+  )}&url=${url}&hashtags=${tagsToText(tags)}`}
+>
+  <Icon name="line-md:twitter-x" />
+</a>

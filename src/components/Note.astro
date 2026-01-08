@@ -1,0 +1,42 @@
+---
+import { Icon } from "astro-icon/components";
+
+const type: "info" | "warning" | "success" | "error" =
+  Astro.props.type || "info";
+
+const { style, icon, iconColor } =
+  type === "success"
+    ? {
+        style: "bg-success/5 border-success/30 text-success-content",
+        icon: "line-md:circle-to-confirm-circle-twotone-transition",
+        iconColor: "text-success/50",
+      }
+    : type === "warning"
+      ? {
+          style: "bg-warning/5 border-warning/30 text-warning-content",
+          icon: "line-md:alert-circle-twotone",
+          iconColor: "text-warning/50",
+        }
+      : type === "error"
+        ? {
+            style: "bg-error/5 border-error/30 text-error-content",
+            icon: "line-md:close-circle-twotone",
+
+            iconColor: "text-error/50",
+          }
+        : {
+            style: "bg-info/5 border-info/30 text-info-content",
+            icon: "line-md:chat-round-dots-twotone",
+
+            iconColor: "text-info/50",
+          };
+---
+
+<div
+  class=`shadow-xs flex flex-row gap-2 items-center justify-start rounded-lg border-1 ${style}`
+>
+  <div class="px-4">
+    <Icon name={icon} class={iconColor} size="32" />
+  </div>
+  <div><slot /></div>
+</div>

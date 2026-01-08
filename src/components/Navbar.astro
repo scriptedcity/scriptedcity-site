@@ -1,0 +1,93 @@
+---
+import { Icon } from "astro-icon/components";
+import { LINKS } from "@src/utils/const";
+const links = LINKS;
+---
+
+<nav class="navbar bg-base-100 shadow-sm">
+  <div class="navbar-start gap-4">
+    <a href="/" class="btn btn-ghost">
+      <Icon name="fa7-regular:building" size="24" />
+    </a>
+    <div class="hidden md:flex flex-col text-left">
+      <h1 class="text-lg sm:text-2xl font-extrabold">Scripted City Revised</h1>
+      <p class="text-xs text-base-content/70">millstones web site</p>
+    </div>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      <li><a href="/"><Icon name="line-md:compass-twotone" />Top</a></li>
+      <li>
+        <a href="/posts/works"><Icon name="line-md:lightbulb-twotone" />Works</a
+        >
+      </li>
+      <li>
+        <a href="/posts/songs"
+          ><Icon name="line-md:folder-music-twotone" />Songs</a
+        >
+      </li>
+      <li>
+        <a href="/posts/discography"
+          ><Icon name="line-md:star-alt-twotone" />Discography</a
+        >
+      </li>
+      <li>
+        <a href="/posts/texts"><Icon name="line-md:pencil-twotone" />Text</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="navbar-center lg:hidden">
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <Icon name="line-md:menu" />
+      </div>
+      <ul
+        tabindex="-1"
+        class="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+      >
+        <li><a href="/">Top</a></li>
+        <li><a href="/posts/works">Works</a></li>
+        <li><a href="/posts/songs">Songs</a></li>
+        <li><a href="/posts/discography">Discography</a></li>
+        <li><a href="/posts/texts">Text</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="navbar-end justify-end">
+    <ul class="hidden xl:flex flex-row gap-2">
+      {
+        links.map((link) => {
+          return (
+            <li
+              class="avatar rounded-full bg-neutral text-neutral-content size-8 tooltip tooltip-bottom items-center justify-center"
+              data-tip={link.name}
+            >
+              <a href={link.uri}>
+                <Icon name={link.icon} size="20" />
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <ul class="xl:hidden flex flex-row gap-2">
+      {
+        links
+          .filter((link) => ["YouTube", "X", "Contact"].includes(link.name))
+          .map((link) => {
+            return (
+              <li
+                class="avatar rounded-full bg-neutral text-neutral-content size-8 tooltip tooltip-bottom items-center justify-center"
+                data-tip={link.name}
+              >
+                <a href={link.uri}>
+                  <Icon name={link.icon} size="20" />
+                </a>
+              </li>
+            );
+          })
+      }
+    </ul>
+  </div>
+</nav>

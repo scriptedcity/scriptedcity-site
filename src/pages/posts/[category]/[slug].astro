@@ -1,0 +1,79 @@
+---
+import { getCollection, render } from "astro:content";
+import { getParams, sortFunction, getDateText } from "@src/utils/posts";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("posts")).sort(sortFunction);
+  return posts.map((post) => {
+    return {
+      props: post,
+      params: getParams(post.filePath),
+    };
+  });
+}
+
+const { Content, remarkPluginFrontmatter } = await render(Astro.props);
+
+const title: string = remarkPluginFrontmatter.title;
+const description: string = remarkPluginFrontmatter.description;
+const date = getDateText(remarkPluginFrontmatter.date);
+const image: string = remarkPluginFrontmatter.image;
+const tags: string[] = remarkPluginFrontmatter.tags;
+
+import Layout from "@src/layouts/Layout.astro";
+import Tags from "@src/components/Tags.astro";
+
+const url = Astro.url;
+
+import { Vibrant } from "node-vibrant/node";
+
+let hex = "#808080";
+try {
+  const { Muted: color } = await Vibrant.from(
+    image.startsWith("/") ? Astro.url.origin + image : image,
+  ).getPalette();
+  hex = color?.hex || "#808080";
+} catch (error) {
+  console.log(error);
+}
+
+import XButton from "@src/components/XButton.astro";
+---
+
+<Layout
+  title={title}
+  description={description}
+  type="article"
+  url={url}
+  image={image}
+>
+  <article class="py-6">
+    <div
+      class="hero h-64 rounded-xl"
+      style=`background-image: url(${image}); box-shadow: 0 0 15px 8px ${hex}70;`
+    >
+      <div class="hero-overlay rounded-xl backdrop-blur-xs"></div>
+      <div
+        class="hero-content text-neutral-content xt-center flex flex-col gap-2 rounded-xl"
+      >
+        <h1 class="text-center text-4xl lg:text-5xl font-extrabold">
+          {title}
+        </h1>
+        {
+          description && (
+            <p class="text-neutral-content/70 text-center italic">
+              {description}
+            </p>
+          )
+        }
+        <Tags tags={tags} />
+        <date class="text-sm text-center">{date}</date>
+        <XButton title={title} url={url} tags={tags} />
+      </div>
+    </div>
+
+    <div class="mx-auto prose prose-img:rounded-md pt-6">
+      <Content />
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,18 @@
+---
+const tags: string[] = Astro.props.tags;
+const align: string = Astro.props.align;
+---
+
+<ul
+  class=`flex flex-wrap gap-1 ${
+  align === "left" ? "justify-start" : align === "right" ? "justify-end": "justify-center"
+  }`
+>
+  {
+    tags.map((tag) => (
+      <li class="px-2 py-0 badge badge-xs sm:badge-sm badge-soft badge-info text-center">
+        {tag}
+      </li>
+    ))
+  }
+</ul>

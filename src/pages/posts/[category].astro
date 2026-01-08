@@ -1,0 +1,84 @@
+---
+import { getCollection } from "astro:content";
+import { getParams, sortFunction } from "@src/utils/posts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  const categories = [
+    ...new Set(posts.map((post) => getParams(post.filePath).category)),
+  ];
+  return categories.map((category) => {
+    return {
+      params: {
+        category,
+      },
+    };
+  });
+}
+
+const { category } = Astro.params;
+
+const posts = (
+  await getCollection("posts", (post) => {
+    return getParams(post.filePath).category === category;
+  })
+).sort(sortFunction);
+
+import Layout from "@src/layouts/Layout.astro";
+import { getDateText } from "@src/utils/posts";
+import Tags from "@src/components/Tags.astro";
+import { capitalize } from "@src/utils/utils";
+
+const title = capitalize(category);
+---
+
+<Layout title={title}>
+  <h2 class="text-lg sm:text-3xl font-extrabold">{title}</h2>
+  <ul
+    class="timeline timeline-vertical [--timeline-col-start:0] sm:[--timeline-col-start:100px] [--timeline-col-end:50%] md:[--timeline-col-end:70%]"
+  >
+    {
+      posts.map((post, index) => {
+        const { category, slug } = getParams(post.filePath);
+        const url = `/posts/${category}/${slug}`;
+        return (
+          <li class="group">
+            {index !== 0 && <hr class="h-8" />}
+            <div class="timeline-start sm:block hidden">
+              <date class="inline-block text-center">
+                {getDateText(post.data.date)}
+              </date>
+            </div>
+
+            <div class="timeline-middle sm:px-8 transition duration-200 ease-in-out group-hover:scale-110">
+              <div class="avatar">
+                <div class="ring-primary ring-offset-base-100 size-16 sm:size-24 rounded-full ring-2 ring-offset-2">
+                  <a href={url}>
+                    <img src={post.data.image} />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="timeline-end flex flex-row gap-4 items-center">
+              <div class="timeline-box text-md sm:text-lg">
+                <a href={url}>
+                  {post.data.title}
+                  <br />
+
+                  <span class="text-xs italic text-base-content/70">
+                    {post.data.description}
+                  </span>
+                  <div class="hidden sm:block">
+                    <Tags tags={post.data.tags} align="left" />
+                  </div>
+                </a>
+              </div>
+            </div>
+            {index !== posts.length - 1 && <hr class="h-8" />}
+          </li>
+        );
+      })
+    }
+  </ul>
+</Layout>
