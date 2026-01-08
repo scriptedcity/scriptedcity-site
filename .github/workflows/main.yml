@@ -1,0 +1,24 @@
+name: 🚀 Deploy website on push
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v2
+      - name: Install
+        run: bun install --no-save
+      - name: Build
+        run: bun run build
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.6
+        with:
+          local-dir: ./dist/
+          dangerous-clean-slate: true
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
