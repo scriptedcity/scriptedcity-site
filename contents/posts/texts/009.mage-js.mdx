@@ -1,0 +1,147 @@
+---
+title: JavaScriptでライブコーディングするためのライブラリを作っている話
+description:
+date: 2023-05-11
+image: /blog/009/magejssample.webp
+tags:
+  - ブログ
+  - プログラミング
+  - JavaScript
+  - ライブコーディング
+  - Mage
+  - npm
+---
+
+## 自作ライブラリ「Mage」
+
+1 年ぐらい前から「ブラウザ上でライブコーディングがしたいなぁ」と思っていて、[Web Audio API](https://developer.mozilla.org/ja/docs/Web/API/Web_Audio_API)を使って色々やっていたのですが、最低限動くものになったので、多分私しか使わないライブラリ~~もしかしたら私も使わないかもしれない~~ですが、npm にパブリッシュしてしまいました。
+
+npm : [@millstones/mage](https://www.npmjs.com/package/@millstones/mage)
+
+ソース : [GitHub](https://github.com/scriptedcity/mage)
+
+DSL を覚えるのはしんどいので、多少冗長でも JavaScript のシンタクスの範囲で実現するのがコンセプトです。
+（逆にいうと、ある程度 JavaScript でプログラミングができる人でないと、まともに扱えないと思います。）
+
+`Mage` は「**Ma**king music, **ge**nerated with code.」の略です。
+
+[TidalCycles](https://tidalcycles.org/)や[Sonic Pi](https://sonic-pi.net/)といった偉大な先人がある中でなんでこんなことやってるのかというのはありますが、別に比肩する存在になろうとか大それたことは考えていなくて、要は私が書き慣れた JavaScript(というか TypeScript)を使って、コードベースで作曲のアイディア出しに使えるものができないかなと思ったのがきっかけでした。
+
+まあ行き詰まってくると、いろんなことを試してみたくなるわけですよ。
+
+## 使い方
+
+こんな感じで使う。
+
+<iframe
+  src="https://codesandbox.io/embed/quizzical-easley-zevxpz?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: 500,
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+  }}
+  title="quizzical-easley-zevxpz"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+/>
+
+## 仕組み
+
+`createMage`がこのライブラリの中心となる`mage`オブジェクトを返します。
+`beatsPerCycle`は Mage 上で 1 サイクルとする拍数で、
+例えば、`{ Tempo : 120, beatsPerCycle : 4 }` なら、120bpm で 4 拍が 1 サイクルになります。
+後述する`cast()`メソッドは、サイクルの終わりまで呼び出しが先送りされるようになっています。色々変更されるタイミングの拍がこれ。
+
+Mage では音源とシーケンスの 2 つの要素と組み合わせた`Spell`オブジェクトを作って、ループさせることで音を重ねていきます。
+
+音源(`Source`)は`mage.createSynth()`または`mage.createSampler()`という Factory 関数を用意しているので、これで作ります。ただ、所定の`play()`メソッドが実装されていればなんでもいいので、[p5.js](https://p5js.org/) とか [Tone.js](https://tonejs.github.io/) とかのオブジェクトをラップしてどうにかすることもできるかもしれません(未確認)。
+
+シーケンス(`Sequence`)は、実際のノートの配列になります。以下の型に合致するものを 1 ステップとして、`Step` の配列で定義します。
+
+```ts
+export type Step = {
+  noteNumber: number | number[]; // 配列の場合は同時に鳴る
+  volume: number;
+  duration: number;
+};
+```
+
+ただ、これを地道に書いてたら音が鳴る前に日が暮れてしまうので、`createSequence()`という関数を用意しています。これは、スケール(`scale`)とパターン(`pattern`)からシーケンスを作る関数です。
+
+- スケールは MIDI ノートナンバーの配列です。例えば、C4 を根音とする CMaj7 の構成音であれば`[60, 64, 67, 71]`になります。
+
+- パターンは Mage で唯一ちょっと DSL っぽい部分で、各ステップの内容を文字リテラルで決められるようになっています。
+
+  - `0-9`と `a-f` はスケール中のインデックスを 16 進数表記で指定するもので、例えばスケールが`[60, 64, 67, 71]`の時、`0`は`60`、`1`なら`64`になります。
+    - つまり、1 スケールで使える音程は 16 種類まで。
+      - 7 音 2 オクターブでほとんど埋まってしまうので、これは何か別途対策を考えるかもしれない
+  - スペース(` `)は休符を表します。
+  - ピリオド(`.`)は、休符でない直前のステップを繰り返します。
+  - 疑問符(`?`)はスケールの中からランダムに 1 音選びます。
+  - ハイフン(`-`)は直前の音の長さを 2 倍にして、そのステップ自体は音を鳴らしません。
+  - 大カッコ(`[]`)は連符です。当該ステップの中でカッコ内の音を等間隔で鳴らします。
+    - 例えば、`"000[00]"`とすると、4 拍のシーケンスで、最後だけ 1 拍に 2 回音が鳴ります。
+      - 四つ打ちキックの「ドン|ドン|ドン|ドド」というやつです。
+        - 入れ子にすることもできます。
+  - 中カッコ(`{}`)は和音です。カッコ内の音を同時に鳴らします。
+    - つまり、`"{0123}"`は CMaj7 のコードに、`"[0123]"`は CMaj7 のアルペジオになります。
+    - 中カッコは入れ子にすることはできず、中カッコの中で出てきたカッコ類は全て無視されます。
+
+スケールとパターンを組み合わせてシーケンスを作るので、パターンが同じでもスケールを差し替えることができます。例えば、`"{0123}"`はスケールが`[60, 64, 67, 71]`なら CMaj7 になりますが、`[62, 65, 69, 72]`なら Dm7 になります。ここが Mage の肝心です。
+
+`Source`と`Sequence`が準備できたところで、これを`mage.cast()`することで、いよいよ音が鳴ります。
+`spell`には名前が必要になります。トラック名とかフレーズ名みたいなもので、同じ名前で後から cast すると上書きします。これはライブコーディングを想定した仕様のつもり。
+
+`props`には`sound`,`sequence`,`duration`を渡す必要がありますが、sound は音源`Source`そのものではなく、`Source`を返す**関数**を、sequence も同様に、シーケンス(`Step`の配列)を返す**関数**を渡します。これらの関数には引数として`{ cycles, beats, loopCount }`が渡されるのですが、要は曲の進み具合や、に応じて音色やフレーズが変わるようにできます。
+
+- `cycles`は開始してからのサイクル数
+- `beats`はサイクル内の何拍目かを示す数
+- `loopCount`は、その`Spell`が何回実行されてるかを示す数
+  - なので、 繰り返しのたびにフレーズを変えたり、拍に応じて音色を変えたりできます。
+
+これも Mage のもう一つの肝の部分です。
+
+`duration` は`Spell`の長さを拍数で指定します。これは Mage 本体の`beatsPerCycle`とは無関係で、この長さをシーケンスのステップで等分して鳴らします。なので、5 連符とか 7 連符のようなリズムを組み合わせた複雑なポリリズムや、フレーズごとに長さが違うポリメーターが簡単に実現できます。やってみるとわかりますが、すぐに**わけわかんなくなります**。
+
+これも Mage の肝と言っていいでしょう。~~一体いくつ肝があるんだ。~~
+
+いろいろ命名が整理しきれない感はありますが、構成要素としてはこんな感じです。
+
+## 問題点
+
+デモ用に CodeSandbox にコードを書きましたが、これリアルタイムで書くの大変すぎるな。
+専用のスニペット集みたいなのをエディタ上で呼び出せるようにしないと厳しそう。
+
+## API ドキュメント
+
+未整備。
+
+- TSDoc は ChatGPT に書いてもらったので、もし使おうという奇特な御仁がいればリポジトリの`docs`フォルダを参照のこと。
+  - せいぜい私しか使わないと思うので、あんまり整備するモチベーションがない。
+
+## 今後
+
+- エフェクターの実装と、ビジュアライズ用のインターフェイスを追加したい。
+- Mage だけ独立してライブラリ化しているけど、元々はブラウザでライブコーディングできる Web アプリとして開発中の「**Nimbus**」の副産物です。
+
+  - Nimbus もある程度動かせる状態になったら、そのうち Vercel あたりでホストする予定。
+
+- ちなみに、2022 年 4 月にツイートしたこれは、その Nimbus の前身。
+
+  <blockquote className="twitter-tweet">
+    <p lang="ja" dir="ltr">
+      Web Audio
+      API使ってブラウザオンリーで音楽のライブコーディングできないかなと思って、2ヶ月ぐらい前からせっせとこんなものを作っている{" "}
+      <a href="https://t.co/BiTNL4gLFl">pic.twitter.com/BiTNL4gLFl</a>
+    </p>
+    &mdash; millstones / ミルストーンズ (@millstones) <a href="https://twitter.com/millstones/status/1516801909457227779?ref_src=twsrc%5Etfw">April 20, 2022</a>
+  </blockquote> <script
+    async
+    src="https://platform.twitter.com/widgets.js"
+    charset="utf-8"
+  ></script>
+
+  - この頃はライブラリと Web アプリを区別してなくて、これ全体が「Mage」だった。
+    - その後、ライブラリを「Mage」、 Web アプリを「Cauldron」として切り分けたのだが、ごちゃごちゃしてわけわかんなくなったので、全部捨てて書き直しました。
