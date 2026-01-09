@@ -138,6 +138,7 @@ export function rehypeLinkcard() {
                     "hover:shadow-lg",
                     "no-underline",
                     "items-center",
+                    "flex flex-col sm:flex-row",
                   ],
                 },
                 children: [
@@ -176,7 +177,7 @@ export function rehypeLinkcard() {
                     type: "element",
                     tagName: "div",
                     properties: {
-                      className: ["card-body", "p-4"],
+                      className: ["card-body", "p-4", "w-full"],
                     },
                     children: [
                       {

@@ -26,7 +26,7 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
 
 <Layout title="Top">
   <article class="flex flex-col gap-4">
-    <div class="flex flex-row gap-4 items-center pt-8">
+    <div class="flex flex-col md:flex-row gap-4 items-center pt-8">
       <div class="avatar">
         <div
           class="w-48 rounded-full ring ring-3 ring-warning ring-offset-base-100 ring-offset-2"
@@ -34,7 +34,8 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
           <img src="/avatar/millstones.webp" />
         </div>
       </div>
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4 items-center md:items-start">
+        <div class="badge badge-warning">音楽制作休業中</div>
         <p class="text-2xl font-bold">millstones / ミルストーンズ</p>
         <ul class="flex flex-row gap-2">
           {
@@ -52,7 +53,6 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
             })
           }
         </ul>
-        <div class="badge badge-warning">音楽制作休業中</div>
         <Tags
           align="left"
           tags={[
@@ -73,7 +73,7 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
     {
       Announcement && (
         <Note type="error">
-          <div class="prose">
+          <div class="px-4 prose prose-sm md:prose-base ">
             <Announcement />
           </div>
         </Note>
@@ -82,7 +82,7 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
     {
       Offer && (
         <Note type="success">
-          <div class="prose">
+          <div class="px-4 prose prose-sm md:prose-base ">
             <Offer />
           </div>
         </Note>
@@ -91,7 +91,7 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
     {
       About && (
         <Note type="info">
-          <div class="prose">
+          <div class="px-4 prose prose-sm md:prose-base ">
             <About />
           </div>
         </Note>

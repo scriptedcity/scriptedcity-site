@@ -33,10 +33,10 @@ const { style, icon, iconColor } =
 ---
 
 <div
-  class=`shadow-xs flex flex-row gap-2 items-center justify-start rounded-lg border-1 ${style}`
+  class=`shadow-xs flex flex-row items-center justify-start rounded-lg border-1 ${style}`
 >
   <div class="px-4">
     <Icon name={icon} class={iconColor} size="32" />
   </div>
-  <div><slot /></div>
+  <slot />
 </div>
