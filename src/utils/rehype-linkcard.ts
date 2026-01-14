@@ -130,7 +130,7 @@ export function rehypeLinkcard() {
                   rel: "noopener noreferrer",
                   className: [
                     "card",
-                    "card-side",
+                    "sm:card-side",
                     "bg-base-100",
                     "border",
                     "border-base-300",
