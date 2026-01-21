@@ -2,6 +2,7 @@
 import Note from "@src/components/Note.astro";
 import Tags from "@src/components/Tags.astro";
 import Layout from "@src/layouts/Layout.astro";
+import Spotify from "@src/components/Spotify.astro";
 import { getCollection, render } from "astro:content";
 
 import { LINKS } from "@src/utils/const";
@@ -70,10 +71,11 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
         />
       </div>
     </div>
+    <Spotify />
     {
       Announcement && (
         <Note type="error">
-          <div class="px-4 prose prose-sm md:prose-base ">
+          <div class="px-4 prose prose-sm md:prose-base">
             <Announcement />
           </div>
         </Note>
@@ -82,7 +84,7 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
     {
       Offer && (
         <Note type="success">
-          <div class="px-4 prose prose-sm md:prose-base ">
+          <div class="px-4 prose prose-sm md:prose-base">
             <Offer />
           </div>
         </Note>
@@ -91,7 +93,7 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
     {
       About && (
         <Note type="info">
-          <div class="px-4 prose prose-sm md:prose-base ">
+          <div class="px-4 prose prose-sm md:prose-base">
             <About />
           </div>
         </Note>
