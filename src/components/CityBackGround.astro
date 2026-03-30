@@ -1,0 +1,382 @@
+---
+interface Props {
+  theme?: "dark" | "light" | "auto";
+  showWindows?: boolean;
+}
+const { theme = "auto", showWindows = true } = Astro.props;
+---
+
+<div
+  id="city-bg"
+  data-theme={theme}
+  data-show-windows={String(showWindows)}
+  style="position:fixed;inset:0;z-index:-1"
+>
+</div>
+
+<script>
+  // @ts-ignore
+  import * as THREE from "three";
+
+  // ─── Grid constants ───────────────────────────────────────
+  const GN = 26;
+  const B = 2.2;
+  const RD = 2.4;
+  const S = B + RD;
+  const HALF = GN / 2;
+  const EXTENT = HALF * S;
+
+  /** Radial glow sprite texture */
+  function makeGlowTex(isDark: boolean) {
+    const sz = 64;
+    const cv = document.createElement("canvas");
+    cv.width = cv.height = sz;
+    const ctx = cv.getContext("2d")!;
+    const rgb = isDark ? "255,255,255" : "10,20,50";
+    const g = ctx.createRadialGradient(
+      sz / 2,
+      sz / 2,
+      0,
+      sz / 2,
+      sz / 2,
+      sz / 2,
+    );
+    g.addColorStop(0.0, `rgba(${rgb},1.00)`);
+    g.addColorStop(0.15, `rgba(${rgb},0.75)`);
+    g.addColorStop(0.45, `rgba(${rgb},0.22)`);
+    g.addColorStop(1.0, `rgba(${rgb},0.00)`);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, sz, sz);
+    return new THREE.CanvasTexture(cv);
+  }
+
+  // ─── Theme definitions ────────────────────────────────────
+  const THEMES = {
+    dark: {
+      clearColor: 0x000810,
+      fogColor: 0x000810,
+      fogDensity: 0.0042,
+      ambColor: 0x0b1c34,
+      ambInt: 5,
+      sunColor: 0x4a6aa8,
+      sunInt: 2.8,
+      sunPos: [-45, 90, -35] as [number, number, number],
+      groundColor: 0x030a10,
+      bldHSL: (i: number) => [0.57 + i * 0.03, 0.22, 0.055 + i * 0.014],
+      bldMetal: 0.45,
+      winWarm: [1.0, 0.84, 0.28],
+      winCool: [0.38, 0.66, 1.0],
+      winRatio: 0.72,
+      winSize: 0.26,
+      winBlend: THREE.AdditiveBlending,
+      winOpacity: 1.0,
+      glowDark: true,
+      glowBlend: THREE.AdditiveBlending,
+      glowOp: [0.12, 0.92],
+      personCols: [
+        [1.0, 0.72, 0.2],
+        [0.82, 0.92, 1.0],
+        [0.1, 0.9, 1.0],
+      ],
+      personRatios: [0.48, 0.76],
+    },
+    light: {
+      clearColor: 0xbaced8,
+      fogColor: 0xbaced8,
+      fogDensity: 0.0034,
+      ambColor: 0xf0f8ff,
+      ambInt: 4,
+      sunColor: 0xfff4d0,
+      sunInt: 4.2,
+      sunPos: [60, 120, 40],
+      groundColor: 0xbaced8,
+      bldHSL: (i: number) => [0.6 + i * 0.02, 0.06, 0.5 + i * 0.045],
+      bldMetal: 0.1,
+      winWarm: [0.6, 0.5, 0.02],
+      winCool: [0.07, 0.12, 0.6],
+      winRatio: 0.58,
+      winSize: 0.32,
+      winBlend: THREE.NormalBlending,
+      winOpacity: 0.5,
+      glowDark: false,
+      glowBlend: THREE.NormalBlending,
+      glowOp: [0.06, 0.72],
+      personCols: [
+        [0.08, 0.12, 0.36],
+        [0.28, 0.08, 0.08],
+        [0.05, 0.2, 0.28],
+      ],
+      personRatios: [0.45, 0.74],
+      labelColor: "rgba(25,45,75,0.38)",
+      titleColor: "rgba(15,35,65,0.07)",
+      hintColor: "rgba(25,45,75,0.30)",
+    },
+  };
+
+  const mount = document.getElementById("city-bg") as HTMLElement;
+  const themeProp = mount.dataset.theme ?? "auto";
+  const showWindows = mount.dataset.showWindows !== "false";
+
+  const mql = window.matchMedia("(prefers-color-scheme: dark)");
+
+  /** props が "auto" のときはシステム設定を参照 */
+  function resolveTheme(): keyof typeof THEMES {
+    if (themeProp === "auto") return mql.matches ? "dark" : "light";
+    return (themeProp in THEMES ? themeProp : "dark") as keyof typeof THEMES;
+  }
+
+  /** Three.js シーンを初期化し、クリーンアップ関数を返す */
+  function init(themeName: keyof typeof THEMES) {
+    const T = THEMES[themeName];
+
+    // renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(T.clearColor);
+    mount.appendChild(renderer.domElement);
+
+    // scene
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(T.fogColor, T.fogDensity);
+
+    // camera
+    const cam = new THREE.PerspectiveCamera(
+      40,
+      window.innerWidth / window.innerHeight,
+      0.5,
+      600,
+    );
+    cam.position.set(20, 75, 40);
+    cam.lookAt(0, 2, 0);
+
+    // lighting
+    scene.add(new THREE.AmbientLight(T.ambColor, T.ambInt));
+    const sun = new THREE.DirectionalLight(T.sunColor, T.sunInt);
+    sun.position.set(T.sunPos[0], T.sunPos[1], T.sunPos[2]);
+    scene.add(sun);
+    const fill = new THREE.DirectionalLight(T.sunColor, T.sunInt * 0.18);
+    fill.position.set(-T.sunPos[0], T.sunPos[1] * 0.4, -T.sunPos[2]);
+    scene.add(fill);
+
+    // city group
+    const city = new THREE.Group();
+    scene.add(city);
+
+    // ground
+    const gnd = new THREE.Mesh(
+      new THREE.PlaneGeometry(GN * S * 3, GN * S * 3),
+      new THREE.MeshStandardMaterial({ color: T.groundColor, roughness: 0.96 }),
+    );
+    gnd.rotation.x = -Math.PI / 2;
+    gnd.position.y = -0.05;
+    city.add(gnd);
+
+    // buildings: 5-variant InstancedMesh
+    const NUM_V = 5;
+    const MAX_INS = Math.ceil((GN * GN) / NUM_V) + 20;
+    const baseGeo = new THREE.BoxGeometry(1, 1, 1);
+
+    const instMeshes = Array.from({ length: NUM_V }, (_, i) => {
+      const [h, s, l] = T.bldHSL(i);
+      const mat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color().setHSL(h, s, l),
+        roughness: 0.55,
+        metalness: T.bldMetal,
+      });
+      const im = new THREE.InstancedMesh(baseGeo, mat, MAX_INS);
+      im.count = 0;
+      city.add(im);
+      return im;
+    });
+
+    const dummy = new THREE.Object3D();
+    const wPos: number[] = [];
+    const wCol: number[] = [];
+
+    for (let gx = -HALF; gx < HALF; gx++) {
+      for (let gz = -HALF; gz < HALF; gz++) {
+        if (Math.random() < 0.08) continue;
+
+        const bx = gx * S;
+        const bz = gz * S;
+        const h = 1.2 + Math.pow(Math.random(), 0.48) * 22;
+
+        dummy.position.set(bx, h / 2, bz);
+        dummy.scale.set(B, h, B);
+        dummy.updateMatrix();
+        const vi = Math.floor(Math.random() * NUM_V);
+        instMeshes[vi].setMatrixAt(instMeshes[vi].count++, dummy.matrix);
+
+        if (showWindows) {
+          const floors = Math.floor(h / 1.35);
+          for (let f = 0; f < floors; f++) {
+            const wy = 0.38 + f * 1.35;
+            const addW = (wx: number, wz: number) => {
+              wPos.push(wx, wy, wz);
+              const warm = Math.random() < T.winRatio;
+              wCol.push(...(warm ? T.winWarm : T.winCool));
+            };
+            if (Math.random() < 0.25) addW(bx + B / 2 + 0.03, bz);
+            if (Math.random() < 0.25) addW(bx, bz + B / 2 + 0.03);
+          }
+        }
+      }
+    }
+    instMeshes.forEach((im) => (im.instanceMatrix.needsUpdate = true));
+
+    if (showWindows && wPos.length) {
+      const wGeo = new THREE.BufferGeometry();
+      wGeo.setAttribute("position", new THREE.Float32BufferAttribute(wPos, 3));
+      wGeo.setAttribute("color", new THREE.Float32BufferAttribute(wCol, 3));
+      city.add(
+        new THREE.Points(
+          wGeo,
+          new THREE.PointsMaterial({
+            size: T.winSize,
+            vertexColors: true,
+            sizeAttenuation: true,
+            blending: T.winBlend,
+            transparent: true,
+            opacity: T.winOpacity,
+            depthWrite: false,
+          }),
+        ),
+      );
+    }
+
+    // people: 2-layer glow
+    const glowTex = makeGlowTex(T.glowDark);
+    const PC = 160;
+    const pPos = new Float32Array(PC * 3);
+    const pCol = new Float32Array(PC * 3);
+    const pVel = new Float32Array(PC);
+    const pAx = new Uint8Array(PC);
+
+    for (let i = 0; i < PC; i++) {
+      const isX = Math.random() > 0.5;
+      const ri = Math.floor(Math.random() * GN) - HALF;
+      const rc = ri * S + S / 2;
+      const along = (Math.random() - 0.5) * GN * S;
+
+      pAx[i] = isX ? 0 : 1;
+      pVel[i] = (0.4 + Math.random() * 1.8) * (Math.random() > 0.5 ? 1 : -1);
+      pPos[i * 3] = isX ? along : rc;
+      pPos[i * 3 + 1] = 0.12;
+      pPos[i * 3 + 2] = isX ? rc : along;
+
+      const t = Math.random();
+      const ci = t < T.personRatios[0] ? 0 : t < T.personRatios[1] ? 1 : 2;
+      pCol.set(T.personCols[ci], i * 3);
+    }
+
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
+    pGeo.setAttribute("color", new THREE.BufferAttribute(pCol, 3));
+
+    const glowBase = {
+      map: glowTex,
+      vertexColors: true,
+      sizeAttenuation: true,
+      transparent: true,
+      blending: T.glowBlend,
+      depthWrite: false,
+      alphaTest: 0,
+    };
+    city.add(
+      new THREE.Points(
+        pGeo,
+        new THREE.PointsMaterial({
+          ...glowBase,
+          size: 2.2,
+          opacity: T.glowOp[0],
+        }),
+      ),
+    );
+    city.add(
+      new THREE.Points(
+        pGeo,
+        new THREE.PointsMaterial({
+          ...glowBase,
+          size: 0.3,
+          opacity: T.glowOp[1],
+        }),
+      ),
+    );
+
+    // scroll + resize
+    let scrollY = 0;
+    const onScroll = () => {
+      scrollY = window.scrollY;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const onResize = () => {
+      cam.aspect = window.innerWidth / window.innerHeight;
+      cam.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    window.addEventListener("resize", onResize);
+
+    const TRAVEL_X = GN * S * 0.2 * 0.628;
+    const TRAVEL_Z = GN * S * 0.2 * 0.777;
+
+    let raf: number;
+    let prev = performance.now();
+    const tick = (now: number) => {
+      raf = requestAnimationFrame(tick);
+      const dt = Math.min((now - prev) / 1000, 0.05);
+      prev = now;
+
+      const maxS = Math.max(
+        document.documentElement.scrollHeight - window.innerHeight,
+        1,
+      );
+      const prog = scrollY / maxS;
+      city.position.x = -prog * TRAVEL_X;
+      city.position.z = -prog * TRAVEL_Z;
+
+      const pos = pGeo.attributes.position.array;
+      const mv = 13 * dt;
+      for (let i = 0; i < PC; i++) {
+        if (pAx[i] === 0) {
+          pos[i * 3] += pVel[i] * mv;
+          if (pos[i * 3] > EXTENT) pos[i * 3] -= GN * S;
+          if (pos[i * 3] < -EXTENT) pos[i * 3] += GN * S;
+        } else {
+          pos[i * 3 + 2] += pVel[i] * mv;
+          if (pos[i * 3 + 2] > EXTENT) pos[i * 3 + 2] -= GN * S;
+          if (pos[i * 3 + 2] < -EXTENT) pos[i * 3 + 2] += GN * S;
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+      renderer.render(scene, cam);
+    };
+    tick(performance.now());
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      if (mount.contains(renderer.domElement))
+        mount.removeChild(renderer.domElement);
+      renderer.dispose();
+      glowTex.dispose();
+    };
+  }
+
+  // 初回初期化
+  let dispose = init(resolveTheme());
+
+  // システムテーマ変更時に再初期化（"auto" のときのみ）
+  mql.addEventListener("change", () => {
+    if (themeProp !== "auto") return;
+    dispose();
+    dispose = init(resolveTheme());
+  });
+
+  // View Transitions 使用時のクリーンアップ
+  document.addEventListener("astro:before-swap", () => dispose(), {
+    once: true,
+  });
+</script>

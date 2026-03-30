@@ -13,6 +13,7 @@ export const LINKS = [
     name: "YouTube Music",
     icon: "simple-icons:youtubemusic",
     uri: "https://music.youtube.com/channel/UCoHEAvL6XFnTu04v555ZxjQ",
+    optional: true,
   },
   {
     name: "YouTube",
@@ -23,20 +24,17 @@ export const LINKS = [
     name: "Niconico",
     icon: "simple-icons:niconico",
     uri: "https://www.nicovideo.jp/user/669463/mylist/1925013",
+    optional: true,
   },
   {
     name: "GitHub",
     icon: "line-md:github-twotone",
     uri: "https://github.com/scriptedcity",
+    optional: true,
   },
   {
     name: "X",
     icon: "line-md:twitter-x",
     uri: "https://twitter.com/millstones",
-  },
-  {
-    name: "Contact",
-    icon: "line-md:email",
-    uri: "https://docs.google.com/forms/d/e/1FAIpQLScuByL4_KEgxbubaXRQsPrIWrQ9a6iTdv_uuesI698vACp1cg/viewform",
   },
 ];
