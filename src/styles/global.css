@@ -1,6 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @plugin "daisyui";
+
+@utility font-display {
+  font-family: "Bebas Neue", sans-serif;
+}
+
+@utility font-condensed {
+  font-family: "Barlow Condensed", sans-serif;
+}
 
 @plugin "daisyui/theme" {
   name: "light";
