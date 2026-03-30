@@ -34,9 +34,4 @@ export const LINKS = [
     icon: "line-md:twitter-x",
     uri: "https://twitter.com/millstones",
   },
-  {
-    name: "Contact",
-    icon: "line-md:email",
-    uri: "https://docs.google.com/forms/d/e/1FAIpQLScuByL4_KEgxbubaXRQsPrIWrQ9a6iTdv_uuesI698vACp1cg/viewform",
-  },
 ];

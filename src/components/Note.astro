@@ -7,19 +7,19 @@ const type: "info" | "warning" | "success" | "error" =
 const { style, icon, iconColor } =
   type === "success"
     ? {
-        style: "bg-success/5 border-success/30 text-success-content",
+        style: "bg-success/15 border-success/30 text-success-content",
         icon: "line-md:circle-to-confirm-circle-twotone-transition",
         iconColor: "text-success/50",
       }
     : type === "warning"
       ? {
-          style: "bg-warning/5 border-warning/30 text-warning-content",
+          style: "bg-warning/15 border-warning/30 text-warning-content",
           icon: "line-md:alert-circle-twotone",
           iconColor: "text-warning/50",
         }
       : type === "error"
         ? {
-            style: "bg-error/5 border-error/30 text-error-content",
+            style: "bg-error/15 border-error/30 text-error-content",
             icon: "line-md:close-circle-twotone",
 
             iconColor: "text-error/50",

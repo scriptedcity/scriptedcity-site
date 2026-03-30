@@ -1,14 +1,8 @@
 ---
 import Note from "@src/components/Note.astro";
-import Tags from "@src/components/Tags.astro";
 import Layout from "@src/layouts/Layout.astro";
 import Spotify from "@src/components/Spotify.astro";
 import { getCollection, render } from "astro:content";
-
-import { LINKS } from "@src/utils/const";
-const links = LINKS;
-
-import { Icon } from "astro-icon/components";
 
 const content = await getCollection("top");
 const announcement = content.find((c) => c.id.endsWith("announcement"));
@@ -27,51 +21,6 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
 
 <Layout title="Top">
   <article class="flex flex-col gap-4">
-    <div class="flex flex-col md:flex-row gap-4 items-center pt-8">
-      <div class="avatar">
-        <div
-          class="w-48 rounded-full ring ring-3 ring-warning ring-offset-base-100 ring-offset-2"
-        >
-          <img src="/avatar/millstones.webp" />
-        </div>
-      </div>
-      <div class="flex flex-col gap-4 items-center md:items-start">
-        <div class="badge badge-warning">音楽制作休業中</div>
-        <p class="text-2xl font-bold">millstones / ミルストーンズ</p>
-        <ul class="flex flex-row gap-2">
-          {
-            links.map((link) => {
-              return (
-                <li
-                  class="avatar rounded-full bg-neutral text-neutral-content size-8 tooltip tooltip-bottom items-center justify-center"
-                  data-tip={link.name}
-                >
-                  <a href={link.uri}>
-                    <Icon name={link.icon} size="20" />
-                  </a>
-                </li>
-              );
-            })
-          }
-        </ul>
-        <Tags
-          align="left"
-          tags={[
-            "作曲",
-            "作詞",
-            "編曲",
-            "オリジナル曲",
-            "電子音楽",
-            "民族音楽風",
-            "VOCALOID",
-            "Ableton Live",
-            "プログラマ",
-            "TypeScript",
-          ]}
-        />
-      </div>
-    </div>
-    <Spotify />
     {
       Announcement && (
         <Note type="error">
@@ -99,5 +48,6 @@ const Offer = offer && offer.body != null && (await render(offer)).Content;
         </Note>
       )
     }
+    <Spotify />
   </article>
 </Layout>
