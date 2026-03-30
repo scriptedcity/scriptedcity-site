@@ -2,7 +2,7 @@
 import Navbar from "@src/components/Navbar.astro";
 import "../styles/global.css";
 import CityBackGround from "@src/components/CityBackGround.astro";
-import Sidebar from "@src/components/Sidebar.astro";
+import Dock from "@src/components/Dock.astro";
 
 const { title, description, type, url, image } = Astro.props;
 ---
@@ -29,11 +29,11 @@ const { title, description, type, url, image } = Astro.props;
     <div>
       <Navbar />
       <div class="flex flex-row pt-40">
-        <Sidebar />
-        <main class="px-4 py-4 ml-40 w-full">
+        <main class="px-4 py-4 md:ml-40 w-full pb-20 md:pb-4">
           <slot />
         </main>
       </div>
+      <Dock />
     </div>
   </body>
 </html>

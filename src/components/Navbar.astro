@@ -6,22 +6,43 @@ const links = LINKS;
 
 <div class="fixed bg-info h-16 w-full -rotate-z-2 top-8 z-1"></div>
 <nav
-  class="navbar fixed bg-base-100 shadow-sm -rotate-z-1 w-[100.5%] -top-4 h-28 z-2"
+  class="navbar fixed bg-base-100 shadow-sm -rotate-z-1 w-[100.5%] -top-4 z-2 flex-wrap h-28 pb-0"
 >
   <div class="navbar-start gap-4">
     <div class="avatar absolute top-4">
       <div
         class="w-32 rounded-full ring ring-3 ring-info ring-offset-base-100 ring-offset-2"
       >
-        <img src="/avatar/millstones.webp" />
+        <a href="/">
+          <img src="/avatar/millstones.webp" />
+        </a>
       </div>
     </div>
-    <div class="flex flex-col ml-38">
-      <p class="text-xl font-bold">millstones / ミルストーンズ</p>
-      <div class="badge badge-info">制作のご依頼お待ちしております</div>
+    <div class="flex flex-col ml-38 gap-1">
+      <p class="text-xl font-bold">
+        millstones<span class="hidden md:inline"> / ミルストーンズ</span>
+      </p>
+      <ul class="flex flex-row gap-2">
+        {
+          links.map((link) => (
+            <li
+              class={`${link.optional ? "hidden md:flex" : ""} avatar rounded-full bg-neutral size-8 text-neutral-content tooltip tooltip-bottom items-center justify-center`}
+              data-tip={link.name}
+            >
+              <a href={link.uri}>
+                <Icon name={link.icon} size="20" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
-  <div class="navbar-center">
+
+  <div class="navbar-end justify-end gap-2">
+    <div class="badge badge-info hidden md:flex">
+      制作のご依頼お待ちしております
+    </div>
     <button
       class="avatar rounded-full bg-info text-info-content size-12 tooltip tooltip-bottom items-center justify-center"
       data-tip="Contact"
@@ -32,23 +53,5 @@ const links = LINKS;
         <Icon name="line-md:email" size="20" />
       </a>
     </button>
-  </div>
-  <div class="navbar-end">
-    <ul class="flex flex-row gap-2">
-      {
-        links.map((link) => {
-          return (
-            <li
-              class="avatar rounded-full bg-neutral text-neutral-content size-8 tooltip tooltip-bottom items-center justify-center"
-              data-tip={link.name}
-            >
-              <a href={link.uri}>
-                <Icon name={link.icon} size="20" />
-              </a>
-            </li>
-          );
-        })
-      }
-    </ul>
   </div>
 </nav>
