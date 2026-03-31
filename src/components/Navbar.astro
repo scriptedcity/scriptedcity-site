@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import { LINKS } from "@src/utils/const";
+import { ttd } from "@src/utils/params";
 const links = LINKS;
 ---
 
@@ -41,7 +42,7 @@ const links = LINKS;
 
   <div class="navbar-end justify-end gap-2">
     <div class="badge badge-info hidden md:flex">
-      制作のご依頼お待ちしております
+      {ttd}
     </div>
     <button
       class="avatar rounded-full bg-primary text-primary-content size-12 tooltip tooltip-bottom items-center justify-center"
