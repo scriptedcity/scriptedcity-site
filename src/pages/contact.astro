@@ -1,0 +1,150 @@
+---
+import Layout from "@src/layouts/Layout.astro";
+import Tags from "@src/components/Tags.astro";
+import { getCollection, render } from "astro:content";
+
+// TODO: Google フォームの URL に変更してください
+const GOOGLE_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLScuByL4_KEgxbubaXRQsPrIWrQ9a6iTdv_uuesI698vACp1cg/viewform";
+
+const contactItems = await getCollection("contact");
+const contactDoc = contactItems.find((c) => c.id.endsWith("contact"));
+const ContactContent =
+  contactDoc && contactDoc.body != null
+    ? (await render(contactDoc)).Content
+    : null;
+
+const tags = [
+  "ジャンルレス",
+  "作曲",
+  "作詞",
+  "編曲",
+  "オリジナル曲",
+  "電子音楽",
+  "民族音楽風",
+  "ゲーム音楽",
+  "VOCALOID",
+  "Ableton Live",
+];
+---
+
+<Layout title="Contact">
+  <article class="flex flex-col items-center gap-12 sm:gap-16">
+    <!-- Hero -->
+    <section class="flex flex-col items-center gap-4 pt-4">
+      <div class="rounded-full p-[3px] bg-primary avatar-glow">
+        <div class="avatar">
+          <div class="w-28 sm:w-32 rounded-full">
+            <img src="/avatar/millstones.webp" alt="millstones" />
+          </div>
+        </div>
+      </div>
+      <h1
+        class="font-display text-6xl sm:text-7xl text-primary tracking-wider leading-none"
+      >
+        millstones
+      </h1>
+      <p
+        class="font-condensed text-xs sm:text-sm tracking-[0.3em] uppercase text-base-content/50"
+      >
+        Music Composer / Arranger
+      </p>
+    </section>
+
+    <!-- Tag cloud -->
+    <section class="w-full px-4">
+      <Tags tags={tags} align="center" />
+    </section>
+
+    <!-- CTA (top) -->
+    <section class="flex flex-col items-center gap-3">
+      <p
+        class="font-condensed text-xs tracking-[0.2em] uppercase text-base-content/50"
+      >
+        ご依頼・ご相談はこちらから
+      </p>
+      <a
+        href={GOOGLE_FORM_URL}
+        class="btn btn-primary btn-lg gap-2 font-condensed tracking-widest uppercase"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+        </svg>
+        お問い合わせフォームへ
+      </a>
+    </section>
+
+    <div class="w-full border-t border-base-content/10"></div>
+
+    <!-- Contact content -->
+    <section class="w-full max-w-2xl">
+      {
+        ContactContent ? (
+          <div class="prose prose-sm md:prose-base max-w-none">
+            <ContactContent />
+          </div>
+        ) : (
+          <p class="font-condensed text-base-content/40 text-center">
+            コンテンツを読み込めませんでした
+          </p>
+        )
+      }
+    </section>
+
+    <!-- CTA (bottom) -->
+    <section class="flex flex-col items-center gap-3 pb-4">
+      <p
+        class="font-condensed text-xs tracking-[0.2em] uppercase text-base-content/50"
+      >
+        ご依頼・ご相談はこちらから
+      </p>
+      <a
+        href={GOOGLE_FORM_URL}
+        class="btn btn-primary btn-lg gap-2 font-condensed tracking-widest uppercase"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+        </svg>
+        お問い合わせフォームへ
+      </a>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .avatar-glow {
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 10px oklch(82% 0.111 230.318 / 40%);
+    }
+    50% {
+      box-shadow: 0 0 28px oklch(82% 0.111 230.318 / 75%);
+    }
+  }
+</style>

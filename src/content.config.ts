@@ -17,4 +17,8 @@ const top = defineCollection({
   loader: glob({ pattern: "top/**/*.md", base: "./contents" }),
 });
 
-export const collections = { posts, top };
+const contact = defineCollection({
+  loader: glob({ pattern: "contact/**/*.md", base: "./contents" }),
+});
+
+export const collections = { posts, top, contact };
