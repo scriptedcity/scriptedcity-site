@@ -2,10 +2,10 @@
   "name": "scr-astro",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/mdx": "5.0.4",
+    "@astrojs/react": "5.0.4",
     "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.16.6",
+    "astro": "6.1.10",
     "astro-icon": "^1.1.5",
     "cheerio": "^1.1.2",
     "git": "^0.1.5",
