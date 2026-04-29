@@ -1,1 +1,1 @@
-export const ttd = "ご依頼お待ちしております";
+export const ttd = "ご依頼はこちらから";
