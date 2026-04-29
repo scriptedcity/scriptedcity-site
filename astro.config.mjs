@@ -8,6 +8,7 @@ import { rehypeLinkcard } from "./src/utils/rehype-linkcard";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://scriptedcity.aroundhalf.info",
   markdown: {
     rehypePlugins: [rehypeLinkcard],
   },
