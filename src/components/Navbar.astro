@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import { LINKS } from "@src/utils/const";
-import { ttd } from "@src/utils/params";
+import { ttd, badgeClass } from "@src/utils/params";
 const links = LINKS;
 ---
 
@@ -41,7 +41,7 @@ const links = LINKS;
   </div>
 
   <div class="navbar-end justify-end gap-2">
-    <div class="badge badge-info hidden md:flex">
+    <div class={`badge ${badgeClass} hidden md:flex`}>
       {ttd}
     </div>
     <button
