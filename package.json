@@ -10,6 +10,7 @@
     "cheerio": "^1.2.0",
     "git": "^0.1.5",
     "hast": "^1.0.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.3.0",
     "three": "^0.183.2",
     "unist-util-visit": "^5.1.0"

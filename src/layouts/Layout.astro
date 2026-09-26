@@ -5,6 +5,7 @@ import CityBackGround from "@src/components/CityBackGround.astro";
 import Dock from "@src/components/Dock.astro";
 
 const { title, description, type, url, image } = Astro.props;
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -20,7 +21,7 @@ const { title, description, type, url, image } = Astro.props;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={url} />
     <meta property="og:site_name" content="Scripted City Revised" />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={ogImage} />
     <meta property="twitter:card" content="Summary Card" />
     <meta property="twitter:site" content="@millstones" />
   </head>
