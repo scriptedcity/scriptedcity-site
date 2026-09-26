@@ -26,12 +26,18 @@ import Tags from "@src/components/Tags.astro";
 const url = Astro.url;
 
 import { Vibrant } from "node-vibrant/node";
+import sharp from "sharp";
+import { readFile } from "node:fs/promises";
 
 let hex = "#808080";
 try {
-  const { Muted: color } = await Vibrant.from(
-    image.startsWith("/") ? Astro.url.origin + image : image,
-  ).getPalette();
+  // サイト内画像はデプロイ先ではなく public/ から読む
+  const source = image.startsWith("/")
+    ? await readFile(`public${image}`)
+    : Buffer.from(await (await fetch(image)).arrayBuffer());
+  // node-vibrant は webp を読めないため PNG に変換して渡す
+  const png = await sharp(source).png().toBuffer();
+  const { Muted: color } = await Vibrant.from(png).getPalette();
   hex = color?.hex || "#808080";
 } catch (error) {
   console.log(error);
